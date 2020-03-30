@@ -35,6 +35,7 @@ public class InitView extends JPanel {
     private Sobel sobel = new Sobel();
     private Roberts roberts = new Roberts();
     private Rotate rotate = new Rotate();
+    private Otsu otsu = new Otsu();
     private int width = 800;
     private int height = 600;
     private boolean isInEffect = false;
@@ -200,7 +201,10 @@ public class InitView extends JPanel {
         instrument = sobel;
         isInEffect = false;
     }
-
+    public void doOtsu() {
+        instrument = otsu;
+        isInEffect = false;
+    }
     public void doRoberts() {
         instrument = roberts;
         isInEffect = false;

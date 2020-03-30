@@ -51,6 +51,7 @@ public class InitMainWindow extends MainFrame {
             addMenuItem("Filter/Aquarelle", "Aquarelle filter", KeyEvent.VK_X, "aquarelle.png", "onAquarelle");
             addMenuItem("Filter/FloydDither", "Floyd dither", KeyEvent.VK_X, "floyd.png", "onFloydDither");
             addMenuItem("Filter/Grey", "Shades of gray", KeyEvent.VK_X, "grey.png", "onGrey");
+            addMenuItem("Filter/Otsu", "change settings of display mode", KeyEvent.VK_X, "otsu.png", "onOtsu");
             addSubMenu("Parameters", KeyEvent.VK_H);
             addMenuItem("Parameters/Parameters", "open parameters dialog", KeyEvent.VK_X, "settings.png", "onParameters");
             addMenuItem("Parameters/Rotate", "Rotate image", KeyEvent.VK_X, "rotate.png", "onRotate");
@@ -72,6 +73,7 @@ public class InitMainWindow extends MainFrame {
             addToolBarSeparator();
             addToolBarButton("Filter/Roberts");
             addToolBarButton("Filter/Sobel");
+            addToolBarButton("Filter/Otsu");
             addToolBarSeparator();
             addToolBarButton("Filter/OrderedDither");
             addToolBarButton("Filter/FloydDither");
@@ -147,6 +149,11 @@ public class InitMainWindow extends MainFrame {
 
     public void onInverison() {
         view.doInversion();
+        onParameters();
+    }
+
+    public void onOtsu() {
+        view.doOtsu();
         onParameters();
     }
 
@@ -232,8 +239,8 @@ public class InitMainWindow extends MainFrame {
     public void onParameters() {
         //view.openParameters();
         JPanel p = view.getParametersPanel();
+        System.out.println(p);
         if(p != null) {
-            System.out.println("params");
             JDialog dialog = new JDialog(this,"Set parameters",true);
             dialog.add(view.getParametersPanel());
             dialog.pack();
