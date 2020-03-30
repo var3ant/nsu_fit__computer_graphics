@@ -8,11 +8,10 @@ import java.awt.image.BufferedImage;
 public class Blur implements Instrument {
     private int[][] matrix;
     private int k;
-    private int matrixSize;
+    private int matrixSize = 5;
     private BlurDialog blurDialog;
 
-    public Blur(int matrixSize) {
-        this.matrixSize = matrixSize;
+    public Blur() {
         this.blurDialog = new BlurDialog(this);
         setMatrix();
     }

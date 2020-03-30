@@ -8,6 +8,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
@@ -29,10 +30,9 @@ public class InitMainWindow extends MainFrame {
     public InitMainWindow() {
         super(800, 600, "PhotoStore");
         try {
-            aboutText = Files.readString(Paths.get("help.txt"));
+            aboutText = new String(Files.readAllBytes(Paths.get("help.txt")), StandardCharsets.UTF_8);
         } catch (IOException e) {
             aboutText = "error";
-            e.printStackTrace();
         }
         try {
             addSubMenu("File", KeyEvent.VK_F);
@@ -85,19 +85,14 @@ public class InitMainWindow extends MainFrame {
             addToolBarSeparator();
             addToolBarButton("Help/About...");
             view = new InitView();
-            //scrollPane.setPreferredSize(new Dimension(800,600));
             add(view);
             this.addComponentListener(new ComponentAdapter() {
                 public void componentResized(ComponentEvent e) {
                     view.setImageSize();
-                    //System.out.println("Fw: " + getWidth() + " Pw: " + view.getWidth());
-                    //scrollPane.revalidate();
                 }
             });
-
-            //onOpen();
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            System.exit(1);
         }
         setMinimumSize(new Dimension(640, 480));
         pack();
@@ -169,10 +164,11 @@ public class InitMainWindow extends MainFrame {
             removeScrolls();
         } else {
             addScrolls();
+            scrollPane.repaint();
         }
         System.out.println(isFitToScreenMode);
         view.setFitToScreen(isFitToScreenMode);
-        repaint();
+        repaint();//ןנט גûחמגו ‎עמדמ לועמהא םו גûחûגאועסÿ paintComponent() view.
     }
     public void onFitSettings() {
         view.showFitDialog();
@@ -237,7 +233,6 @@ public class InitMainWindow extends MainFrame {
     }
 
     public void onParameters() {
-        //view.openParameters();
         JPanel p = view.getParametersPanel();
         System.out.println(p);
         if(p != null) {

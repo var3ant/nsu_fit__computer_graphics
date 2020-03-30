@@ -26,7 +26,7 @@ public class InitView extends JPanel {
     private Grey grey = new Grey();
     private Scaler scaler = new Scaler();
     private Inversion inversion = new Inversion();
-    private Blur blur = new Blur(5);
+    private Blur blur = new Blur();
     private Sharp sharp = new Sharp();
     private Emboss emboss = new Emboss();
     private OrderedDither orderedDither = new OrderedDither();
@@ -131,8 +131,6 @@ public class InitView extends JPanel {
         } else {
             setPreferredSize(null);
         }
-        repaint();
-
     }
     public void inShadesOfGrey() {
         instrument = grey;
