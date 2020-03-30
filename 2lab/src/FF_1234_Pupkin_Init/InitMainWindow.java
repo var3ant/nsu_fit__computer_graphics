@@ -168,6 +168,7 @@ public class InitMainWindow extends MainFrame {
         }
         System.out.println(isFitToScreenMode);
         view.setFitToScreen(isFitToScreenMode);
+        pack();
         repaint();//ןנט גûחמגו ‎עמדמ לועמהא םו גûחûגאועסÿ paintComponent() view.
     }
     public void onFitSettings() {
