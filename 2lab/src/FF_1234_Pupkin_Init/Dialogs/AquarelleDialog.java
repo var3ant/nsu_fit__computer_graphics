@@ -18,7 +18,7 @@ public class AquarelleDialog  extends JPanel {
         super();
         setLayout(new GridLayout(2, 1));
         JPanel paramsPanel = new JPanel(new GridLayout(1, 3));
-        JPanel buttonPanel = new JPanel();
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         this.aquarelle = aquarelle;
         TextAndSlider ts = TextAndSliderCreator.createDefault(MIN_VALUE, MAX_VALUE, MAX_VALUE_LENGTH, aquarelle.getValue());
         paramsPanel.add(new Label("parameter:"));

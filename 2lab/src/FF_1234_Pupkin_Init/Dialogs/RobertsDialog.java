@@ -16,7 +16,7 @@ public class RobertsDialog  extends JPanel {
         super();
         setLayout(new GridLayout(2, 1));
         JPanel paramsPanel = new JPanel(new GridLayout(1, 3));
-        JPanel buttonPanel = new JPanel();
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         this.roberts = roberts;
         TextAndSlider ts = TextAndSliderCreator.createDefault(MIN_VALUE, MAX_VALUE, MAX_VALUE_LENGTH, roberts.getBinParameter());
         paramsPanel.add(new Label("Binarization parameter:"));

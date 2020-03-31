@@ -16,7 +16,7 @@ public class Inversion implements Instrument{
                 int G = ((pixel & 0x0000FF00) >> 8); // зеленый
                 int B = (pixel & 0x000000FF); // синий
                 int A = (pixel & 0xFF000000) >> 24;
-                pixel = (255 - B) | ((255 - G) << 8) | (R << 16) | (A << 24);
+                pixel = (255 - B) | ((255 - G) << 8) | ((255 - R) << 16) | (A << 24);
                 toReturn.setRGB(x, y, pixel);
                 //System.out.print("result");
             }

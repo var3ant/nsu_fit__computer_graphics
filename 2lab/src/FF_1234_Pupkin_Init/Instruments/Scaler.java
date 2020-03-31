@@ -52,12 +52,10 @@ public class Scaler implements Instrument {
                 toReturn = scaleOp.filter(image, toReturn);
                 return toReturn;
             }
-            //System.out.println(transformType);
             toReturn = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
             toReturn.getGraphics().drawImage(image, 0, 0, null);
-            //return toReturn;
         }
-        return toReturn;//FIXME:возможно тут копию нужно создавать.
+        return toReturn;//FIXME:возможно тут копию нужно создавать, нужно подумать о контракте.
     }
 
     public boolean getFitToScreen() {

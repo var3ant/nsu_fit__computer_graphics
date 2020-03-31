@@ -18,7 +18,7 @@ public class GammaDialog extends JPanel {
         setLayout(new GridLayout(2, 1));
         this.gamma = gamma;
         JPanel paramsPanel = new JPanel(new GridLayout(1, 3));
-        JPanel buttonPanel = new JPanel();
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         TextAndSlider ts = TextAndSliderCreator.createDefault(MIN_VALUE, MAX_VALUE, MAX_VALUE_LENGTH, (int)(gamma.getGamme()*10));
         paramsPanel.add(new Label("p:"));
         valueText = ts.text;

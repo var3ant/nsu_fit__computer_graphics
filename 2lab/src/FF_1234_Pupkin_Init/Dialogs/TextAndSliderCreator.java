@@ -55,7 +55,7 @@ public class TextAndSliderCreator {
                     return;
                 }
                 for(int i=0;i<str.length();++i){
-                    if(!Character.isDigit(str.charAt(i))){
+                    if(!Character.isDigit(str.charAt(i)) && str.charAt(i) != '-'){
                         return;
                     }
                 }

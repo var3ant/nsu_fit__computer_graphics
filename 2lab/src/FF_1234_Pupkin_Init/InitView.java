@@ -129,27 +129,27 @@ public class InitView extends JPanel {
         if(!scaler.getFitToScreen() && originalImage!=null) {
             setPreferredSize(new Dimension(originalImage.getWidth() + 2*shift + 1, originalImage.getHeight() + 2*shift + 1));
         } else {
-            setPreferredSize(null);
+            //setPreferredSize(null);
         }
     }
     public void inShadesOfGrey() {
-        instrument = grey;
         isInEffect = false;
+        instrument = grey;
     }
 
     public void doInversion() {
-        instrument = inversion;
         isInEffect = false;
+        instrument = inversion;
     }
 
     public void doGamma() {
-        instrument = gamma;
         isInEffect = false;
+        instrument = gamma;
     }
 
     public void doFloydDither() {
-        instrument = floydDither;
         isInEffect = false;
+        instrument = floydDither;
     }
     void paintImage() {
         if (isInEffect) {
@@ -162,54 +162,56 @@ public class InitView extends JPanel {
         }
         repaint();
     }
-    private void useInstrument() {
-        if(!isInEffect && originalImage != null) {
-            imageWithEffect = instrument.doWork(originalImage);
+    public void useInstrument() {
+        if(originalImage != null) {
+            if(!isInEffect) {
+                imageWithEffect = instrument.doWork(originalImage);
+            }
+            isInEffect = !isInEffect;
+            paintImage();
         }
-        isInEffect = !isInEffect;
-        paintImage();
     }
 
     public void doBlur() {
-        instrument = blur;
         isInEffect = false;
+        instrument = blur;
     }
 
-    public void doContur() {
-        instrument = sharp;
+    public void doSharp() {
         isInEffect = false;
+        instrument = sharp;
     }
 
     public void doEmboss() {
-        instrument = emboss;
         isInEffect = false;
+        instrument = emboss;
     }
 
     public void doOrderedDither() {
-        instrument = orderedDither;
         isInEffect = false;
+        instrument = orderedDither;
     }
 
     public void doAquarelle() {
-        instrument = aquarelle;
         isInEffect = false;
+        instrument = aquarelle;
     }
 
     public void doSobel() {
-        instrument = sobel;
         isInEffect = false;
+        instrument = sobel;
     }
     public void doOtsu() {
-        instrument = otsu;
         isInEffect = false;
+        instrument = otsu;
     }
     public void doRoberts() {
-        instrument = roberts;
         isInEffect = false;
+        instrument = roberts;
     }
     public void doRotate() {
-        instrument = rotate;
         isInEffect = false;
+        instrument = rotate;
     }
     public JPanel getParametersPanel() {
         return instrument.getParameterDialog();

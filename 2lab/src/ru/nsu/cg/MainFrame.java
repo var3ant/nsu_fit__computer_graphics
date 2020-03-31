@@ -1,22 +1,12 @@
 package ru.nsu.cg;
 
-import java.awt.BorderLayout;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.lang.reflect.Method;
 import java.security.InvalidParameterException;
-
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JPopupMenu;
-import javax.swing.JToolBar;
-import javax.swing.MenuElement;
-import javax.swing.UIManager;
 
 /**
  * MainFrame - main application frame
@@ -74,16 +64,20 @@ public class MainFrame extends JFrame {
 	 * @throws NoSuchMethodException - when actionMethod method not found
 	 * @throws SecurityException - when actionMethod method is inaccessible
 	 */
-	public JMenuItem createMenuItem(String title, String tooltip, int mnemonic, String icon, String actionMethod) throws SecurityException, NoSuchMethodException
-	{
-		JMenuItem item = new JMenuItem(title);
+	public JMenuItem createMenuItem(String title, String tooltip, int mnemonic, String icon, String actionMethod, boolean isToggle) throws SecurityException, NoSuchMethodException {
+		JMenuItem item;
+		if (isToggle) {
+			item = new JRadioButtonMenuItem(title);
+		} else {
+			item = new JMenuItem(title);
+		}
 		item.setMnemonic(mnemonic);
 		item.setToolTipText(tooltip);
-		if(icon != null)
-			item.setIcon(new ImageIcon(getClass().getResource("resources/"+icon), title));
+		if (icon != null)
+			item.setIcon(new ImageIcon(getClass().getResource("resources/" + icon), title));
 		final Method method = getClass().getMethod(actionMethod);
 		item.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent evt) {
 				try {
@@ -107,9 +101,9 @@ public class MainFrame extends JFrame {
 	 * @throws NoSuchMethodException - when actionMethod method not found
 	 * @throws SecurityException - when actionMethod method is inaccessible
 	 */
-	public JMenuItem createMenuItem(String title, String tooltip, int mnemonic, String actionMethod) throws SecurityException, NoSuchMethodException
+	public JMenuItem createMenuItem(String title, String tooltip, int mnemonic, String actionMethod, boolean isToggle) throws SecurityException, NoSuchMethodException
 	{
-		return createMenuItem(title, tooltip, mnemonic, null, actionMethod);
+		return createMenuItem(title, tooltip, mnemonic, null, actionMethod, isToggle);
 	}
 
 	/**
@@ -158,18 +152,18 @@ public class MainFrame extends JFrame {
 	 * @throws SecurityException - when actionMethod method is inaccessible
 	 * @throws InvalidParameterException - when specified menu location not found
 	 */
-	public void addMenuItem(String title, String tooltip, int mnemonic, String icon, String actionMethod) throws SecurityException, NoSuchMethodException
-	{
+	public AbstractButton addMenuItem(String title, String tooltip, int mnemonic, String icon, String actionMethod, boolean isToggle) throws SecurityException, NoSuchMethodException {
 		MenuElement element = getParentMenuElement(title);
-		if(element == null)
-			throw new InvalidParameterException("Menu path not found: "+title);
-		JMenuItem item = createMenuItem(getMenuPathName(title), tooltip, mnemonic, icon, actionMethod);
-		if(element instanceof JMenu)
-			((JMenu)element).add(item);
-		else if(element instanceof JPopupMenu)
-			((JPopupMenu)element).add(item);
-		else 
-			throw new InvalidParameterException("Invalid menu path: "+title);
+		if (element == null)
+			throw new InvalidParameterException("Menu path not found: " + title);
+		JMenuItem item = createMenuItem(getMenuPathName(title), tooltip, mnemonic, icon, actionMethod, isToggle);
+		if (element instanceof JMenu)
+			((JMenu) element).add(item);
+		else if (element instanceof JPopupMenu)
+			((JPopupMenu) element).add(item);
+		else
+			throw new InvalidParameterException("Invalid menu path: " + title);
+		return item;
 	}
 	
 	/**
@@ -182,9 +176,9 @@ public class MainFrame extends JFrame {
 	 * @throws SecurityException - when actionMethod method is inaccessible
 	 * @throws InvalidParameterException - when specified menu location not found
 	 */
-	public void addMenuItem(String title, String tooltip, int mnemonic, String actionMethod) throws SecurityException, NoSuchMethodException
+	public void addMenuItem(String title, String tooltip, int mnemonic, String actionMethod, boolean isRadio) throws SecurityException, NoSuchMethodException
 	{
-		addMenuItem(title, tooltip, mnemonic, null, actionMethod);
+		addMenuItem(title, tooltip, mnemonic, null, actionMethod, isRadio);
 	}
 	
 	/**
@@ -262,9 +256,14 @@ public class MainFrame extends JFrame {
 	 * @param item - menuitem to create toolbar button from
 	 * @return created toolbar button
 	 */
-	public JButton createToolBarButton(JMenuItem item)
+	public AbstractButton createToolBarButton(JMenuItem item, boolean isRadio)
 	{
-		JButton button = new JButton(item.getIcon());
+		AbstractButton button;
+		if(isRadio) {
+			button = new JToggleButton(item.getIcon());
+		} else {
+			button = new JButton(item.getIcon());
+		}
 		for(ActionListener listener: item.getActionListeners())
 			button.addActionListener(listener);
 		button.setToolTipText(item.getToolTipText());
@@ -277,21 +276,23 @@ public class MainFrame extends JFrame {
 	 * @return created toolbar button
 	 * @see MainFrame.getMenuItem
 	 */
-	public JButton createToolBarButton(String menuPath)
+	public AbstractButton createToolBarButton(String menuPath, boolean isRadio)
 	{
 		JMenuItem item = (JMenuItem)getMenuElement(menuPath);
 		if(item == null) 
 			throw new InvalidParameterException("Menu path not found: "+menuPath);
-		return createToolBarButton(item);
+		return createToolBarButton(item,isRadio);
 	}
 
 	/**
 	 * Creates toolbar button which will behave exactly like specified menuitem and adds it to the toolbar
 	 * @param menuPath - path to menu item to create toolbar button from
 	 */
-	public void addToolBarButton(String menuPath)
+	public AbstractButton addToolBarButton(String menuPath, boolean isRadio)
 	{
-		toolBar.add(createToolBarButton(menuPath));
+		AbstractButton button = createToolBarButton(menuPath, isRadio);
+		toolBar.add(button);
+		return button;
 	}
 
 	/**

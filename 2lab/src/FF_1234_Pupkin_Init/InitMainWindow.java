@@ -20,10 +20,12 @@ import java.nio.file.Paths;
 public class InitMainWindow extends MainFrame {
     InitView view;
     private JScrollPane scrollPane;
-    private boolean isFitToScreenMode = true;
+    private boolean isFitToScreenMode = false;
     private JPanel panelWithScroll;
     MouseAdapter ma;
     String aboutText;
+    private JRadioButtonMenuItem fitToScreenMenuItem;
+    private JToggleButton fitToScreenButton;
     /**
      * Default constructor to create main window
      */
@@ -36,56 +38,63 @@ public class InitMainWindow extends MainFrame {
         }
         try {
             addSubMenu("File", KeyEvent.VK_F);
-            addMenuItem("File/Open", "Open image", KeyEvent.VK_X, "open.png", "onOpen");
-            addMenuItem("File/Save", "Save image", KeyEvent.VK_X, "save.png", "onSave");
-            addMenuItem("File/Apply", "apply changes", KeyEvent.VK_X, "apply.png", "onApply");
-            addMenuItem("File/Exit", "Exit application", KeyEvent.VK_X, "exit.png", "onExit");
+            addMenuItem("File/Open", "Open image", KeyEvent.VK_X, "open.png", "onOpen",false);
+            addMenuItem("File/Save", "Save image", KeyEvent.VK_X, "save.png", "onSave",false);
+            addMenuItem("File/Apply", "apply changes", KeyEvent.VK_X, "apply.png", "onApply",false);
+            addMenuItem("File/Exit", "Exit application", KeyEvent.VK_X, "exit.png", "onExit",false);
             addSubMenu("Filter", KeyEvent.VK_F);
-            addMenuItem("Filter/Inversion", "Inversion filter", KeyEvent.VK_X, "invert.png", "onInverison");
-            addMenuItem("Filter/Blur", "Blur filter", KeyEvent.VK_X, "blur.png", "onBlur");
-            addMenuItem("Filter/Roberts", "Roberts filter", KeyEvent.VK_X, "roberts.png", "onRoberts");
-            addMenuItem("Filter/Sobel", "Sobel filter ", KeyEvent.VK_X, "sobel.png", "onSobel");
-            addMenuItem("Filter/Emboss", "Emboss filter", KeyEvent.VK_X, "emboss.png", "onEmboss");
-            addMenuItem("Filter/Gamma", "Gamma correction", KeyEvent.VK_X, "gamma.png", "onGamma");
-            addMenuItem("Filter/OrderedDither", "Ordered dither", KeyEvent.VK_X, "ordered.png", "onOrderedDither");
-            addMenuItem("Filter/Aquarelle", "Aquarelle filter", KeyEvent.VK_X, "aquarelle.png", "onAquarelle");
-            addMenuItem("Filter/FloydDither", "Floyd dither", KeyEvent.VK_X, "floyd.png", "onFloydDither");
-            addMenuItem("Filter/Grey", "Shades of gray", KeyEvent.VK_X, "grey.png", "onGrey");
-            addMenuItem("Filter/Otsu", "change settings of display mode", KeyEvent.VK_X, "otsu.png", "onOtsu");
+            addMenuItem("Filter/Inversion", "Inversion filter", KeyEvent.VK_X, "invert.png", "onInverison",false);
+            addMenuItem("Filter/Blur", "Blur filter", KeyEvent.VK_X, "blur.png", "onBlur",false);
+            addMenuItem("Filter/Roberts", "Roberts filter", KeyEvent.VK_X, "roberts.png", "onRoberts",false);
+            addMenuItem("Filter/Sobel", "Sobel filter ", KeyEvent.VK_X, "sobel.png", "onSobel",false);
+            addMenuItem("Filter/Emboss", "Emboss filter", KeyEvent.VK_X, "emboss.png", "onEmboss",false);
+            addMenuItem("Filter/Gamma", "Gamma correction", KeyEvent.VK_X, "gamma.png", "onGamma",false);
+            addMenuItem("Filter/OrderedDither", "Ordered dither", KeyEvent.VK_X, "ordered.png", "onOrderedDither",false);
+            addMenuItem("Filter/Aquarelle", "Aquarelle filter", KeyEvent.VK_X, "aquarelle.png", "onAquarelle",false);
+            addMenuItem("Filter/FloydDither", "Floyd dither", KeyEvent.VK_X, "floyd.png", "onFloydDither",false);
+            addMenuItem("Filter/Grey", "Shades of gray", KeyEvent.VK_X, "grey.png", "onGrey",false);
+            addMenuItem("Filter/Otsu", "change settings of display mode", KeyEvent.VK_X, "otsu.png", "onOtsu",false);
+            addMenuItem("Filter/Sharp", "Sharp filter", KeyEvent.VK_X, "sharp.png", "onSharp",false);
             addSubMenu("Parameters", KeyEvent.VK_H);
-            addMenuItem("Parameters/Parameters", "open parameters dialog", KeyEvent.VK_X, "settings.png", "onParameters");
-            addMenuItem("Parameters/Rotate", "Rotate image", KeyEvent.VK_X, "rotate.png", "onRotate");
-            addMenuItem("Parameters/FitToScreen", "change image display mode", KeyEvent.VK_X, "resize.png", "onFitToScreen");
-            addMenuItem("Parameters/FitSettings", "change settings of display mode", KeyEvent.VK_X, "FitSettings.png", "onFitSettings");
+            addMenuItem("Parameters/Parameters", "open parameters dialog", KeyEvent.VK_X, "settings.png", "onParameters",false);
+            addMenuItem("Parameters/Rotate", "Rotate image", KeyEvent.VK_X, "rotate.png", "onRotate",false);
+            fitToScreenMenuItem = (JRadioButtonMenuItem) addMenuItem("Parameters/FitToScreen", "change image display mode", KeyEvent.VK_X, "resize.png", "onFitToScreen",true);
+            addMenuItem("Parameters/FitSettings", "change settings of display mode", KeyEvent.VK_X, "FitSettings.png", "onFitSettings",false);
             addSubMenu("Help", KeyEvent.VK_H);
-            addMenuItem("Help/About...", "Shows program version and copyright information", KeyEvent.VK_A, "about.png", "onAbout");
-            addToolBarButton("File/Open");
-            addToolBarButton("File/Save");
-            addToolBarButton("File/Apply");
+            addMenuItem("Help/About...", "Shows program version and copyright information", KeyEvent.VK_A, "about.png", "onAbout",false);
+            addToolBarButton("File/Open", false);
+            addToolBarButton("File/Save", false);
+            addToolBarButton("File/Apply", false);
             addToolBarSeparator();
-            addToolBarButton("Filter/Blur");
-            addToolBarButton("Filter/Emboss");
-            addToolBarButton("Filter/Aquarelle");
+            addToolBarButton("Filter/Sharp", false);
+            addToolBarButton("Filter/Blur", false);
+            addToolBarButton("Filter/Emboss", false);
+            addToolBarButton("Filter/Aquarelle", false);
             addToolBarSeparator();
-            addToolBarButton("Filter/Inversion");
-            addToolBarButton("Filter/Grey");
-            addToolBarButton("Filter/Gamma");
+            addToolBarButton("Filter/Inversion", false);
+            addToolBarButton("Filter/Grey", false);
+            addToolBarButton("Filter/Gamma", false);
             addToolBarSeparator();
-            addToolBarButton("Filter/Roberts");
-            addToolBarButton("Filter/Sobel");
-            addToolBarButton("Filter/Otsu");
+            addToolBarButton("Filter/Roberts", false);
+            addToolBarButton("Filter/Sobel", false);
+            addToolBarButton("Filter/Otsu", false);
             addToolBarSeparator();
-            addToolBarButton("Filter/OrderedDither");
-            addToolBarButton("Filter/FloydDither");
+            addToolBarButton("Filter/OrderedDither", false);
+            addToolBarButton("Filter/FloydDither", false);
             addToolBarSeparator();
-            addToolBarButton("Parameters/Rotate");
-            addToolBarButton("Parameters/Parameters");
-            addToolBarButton("Parameters/FitToScreen");
-            addToolBarButton("Parameters/FitSettings");
+            addToolBarButton("Parameters/Rotate", false);
+            addToolBarButton("Parameters/Parameters", false);
+            fitToScreenButton = (JToggleButton) addToolBarButton("Parameters/FitToScreen", true);
+            fitToScreenButton.setSelected(isFitToScreenMode);
+            addToolBarButton("Parameters/FitSettings", false);
             addToolBarSeparator();
-            addToolBarButton("Help/About...");
+            addToolBarButton("Help/About...", false);
             view = new InitView();
-            add(view);
+            panelWithScroll = new JPanel();
+            panelWithScroll.setLayout(new BorderLayout());
+            panelWithScroll.add(view);
+            add(panelWithScroll);
+            setFitToScreen(isFitToScreenMode);
             this.addComponentListener(new ComponentAdapter() {
                 public void componentResized(ComponentEvent e) {
                     view.setImageSize();
@@ -140,85 +149,78 @@ public class InitMainWindow extends MainFrame {
     public void onGamma() {
         view.doGamma();
         onParameters();
+        view.useInstrument();
     }
 
     public void onInverison() {
         view.doInversion();
         onParameters();
+        view.useInstrument();
     }
 
     public void onOtsu() {
         view.doOtsu();
         onParameters();
+        view.useInstrument();
     }
 
     public void onEmboss() {
         view.doEmboss();
         onParameters();
+        view.useInstrument();
     }
 
-    public void onFitToScreen() {
-        isFitToScreenMode = !isFitToScreenMode;
-        if (isFitToScreenMode) {
-            view.showFitDialog();
-            removeScrolls();
-        } else {
-            addScrolls();
-            scrollPane.repaint();
-        }
-        System.out.println(isFitToScreenMode);
-        view.setFitToScreen(isFitToScreenMode);
-        pack();
-        repaint();//ןנט גûחמגו ‎עמדמ לועמהא םו גûחûגאועסÿ paintComponent() view.
-    }
-    public void onFitSettings() {
-        view.showFitDialog();
-        if(isFitToScreenMode) {
-            view.setImage();
-        }
-    }
     public void onOrderedDither() {
         view.doOrderedDither();
         onParameters();
+        view.useInstrument();
     }
 
     public void onGrey() {
         view.inShadesOfGrey();
         onParameters();
+        view.useInstrument();
     }
 
     public void onBlur() {
         view.doBlur();
         onParameters();
+        view.useInstrument();
     }
 
-    public void onContur() {
-        view.doContur();
+    public void onSharp() {
+        view.doSharp();
         onParameters();
+        view.useInstrument();
     }
 
     public void onFloydDither() {
         view.doFloydDither();
         onParameters();
+        view.useInstrument();
     }
 
     public void onAquarelle() {
         view.doAquarelle();
         onParameters();
+        view.useInstrument();
     }
 
     public void onRoberts() {
         view.doRoberts();
         onParameters();
+        view.useInstrument();
     }
 
     public void onSobel() {
         view.doSobel();
         onParameters();
+        view.useInstrument();
     }
     public void onRotate() {
         view.doRotate();
         onParameters();
+        view.useInstrument();
     }
     public void onOpen() {
         File image = FileUtils.getOpenImageFileName(this);
@@ -243,11 +245,37 @@ public class InitMainWindow extends MainFrame {
             dialog.setVisible(true);
         }
     }
+    public void onFitToScreen() {
+        isFitToScreenMode = !isFitToScreenMode;
+        setFitToScreen(isFitToScreenMode);
+
+    }
+    private void setFitToScreen(boolean isFitToScreenMode) {
+        fitToScreenButton.setSelected(isFitToScreenMode);
+        fitToScreenMenuItem.setSelected(isFitToScreenMode);
+        if (isFitToScreenMode) {
+            view.showFitDialog();
+            removeScrolls();
+        } else {
+            addScrolls();
+        }
+        view.setFitToScreen(isFitToScreenMode);
+        panelWithScroll.setPreferredSize(panelWithScroll.getSize());
+        pack();
+        view.setImage();
+        panelWithScroll.setPreferredSize(null);
+        repaint();
+
+    }
+    public void onFitSettings() {
+        view.showFitDialog();
+        if(isFitToScreenMode) {
+            view.setImage();
+        }
+    }
+
     private void addScrolls() {
-        remove(view);
-        panelWithScroll = new JPanel();
-        add(panelWithScroll);
-        panelWithScroll.setLayout(new BorderLayout());
+        panelWithScroll.remove(view);
         view.setAutoscrolls(true);
         scrollPane = new JScrollPane(view);
         panelWithScroll.add(scrollPane);
@@ -278,12 +306,13 @@ public class InitMainWindow extends MainFrame {
         };
         view.addMouseListener(ma);
         view.addMouseMotionListener(ma);
+        scrollPane.revalidate();
     }
     private void removeScrolls() {
-        remove(panelWithScroll);
+        panelWithScroll.remove(scrollPane);
         view.setAutoscrolls(false);
         view.removeMouseListener(ma);
         view.removeMouseMotionListener(ma);
-        add(view);
+        panelWithScroll.add(view);
     }
 }

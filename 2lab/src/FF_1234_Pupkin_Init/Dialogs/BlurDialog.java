@@ -18,7 +18,7 @@ public class BlurDialog extends JPanel {
         super();
         setLayout(new GridLayout(2, 1));
         JPanel paramsPanel = new JPanel(new GridLayout(1, 3));
-        JPanel buttonPanel = new JPanel();
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         setLayout(new GridLayout(2, 1));
         this.blur = blur;
         TextAndSlider ts = TextAndSliderCreator.create(MIN_VALUE, MAX_VALUE, MAX_VALUE_LENGTH, blur.getMatrixSize());

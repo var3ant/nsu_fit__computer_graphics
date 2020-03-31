@@ -7,6 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.security.acl.Group;
 
 public class OtsuDialog extends JPanel {
     final int MIN_VALUE = 1;
@@ -22,24 +23,21 @@ public class OtsuDialog extends JPanel {
     public OtsuDialog(Otsu otsu) {
         super();
         this.otsu = otsu;
-        setLayout(new GridLayout(2, 1));
-        JPanel paramsPanel = new JPanel(new GridLayout(3, 3));
-        JPanel buttonPanel = new JPanel();
-        paramsPanel.add(new Label("Ops/params:"));
-        paramsPanel.add(new Label("Dilate"));
-        paramsPanel.add(new Label("Erode"));
+        setLayout(new BorderLayout());
+        JPanel paramsPanel = new JPanel(new GridLayout(3, 4));
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        //GroupLayout layout = new GroupLayout(this);
+        //setLayout(layout);
         TextAndSlider ts = TextAndSliderCreator.createDefault(MIN_VALUE, MAX_VALUE, MAX_VALUE_LENGTH, otsu.dilate.getShift());
-        paramsPanel.add(new Label("Shift:"));
+        paramsPanel.add(new Label("Operation parameter"));
+        paramsPanel.add(new Label("Binarization"));
+        paramsPanel.add(new Label(""));
+        paramsPanel.add(new Label("Mode:"));
+
+        paramsPanel.add(new Label("Dilate"));
         dilateText = ts.text;
         paramsPanel.add(dilateText);
         paramsPanel.add(ts.slider);
-
-        ts = TextAndSliderCreator.createDefault(MIN_VALUE, MAX_VALUE, MAX_VALUE_LENGTH, otsu.erode.getShift());
-        erodeText = ts.text;
-        paramsPanel.add(erodeText);
-        paramsPanel.add(ts.slider);
-
-        paramsPanel.add(new Label("Mode:"));
         ButtonGroup dilateMode = new ButtonGroup();
         JRadioButton blackDilateButton= new JRadioButton("black", false);
         JRadioButton whiteDilateButton= new JRadioButton("white", false);
@@ -50,6 +48,11 @@ public class OtsuDialog extends JPanel {
         dialoteModePanel.add(whiteDilateButton);
         paramsPanel.add(dialoteModePanel);
 
+        paramsPanel.add(new Label("Erode:"));
+        ts = TextAndSliderCreator.createDefault(MIN_VALUE, MAX_VALUE, MAX_VALUE_LENGTH, otsu.erode.getShift());
+        erodeText = ts.text;
+        paramsPanel.add(erodeText);
+        paramsPanel.add(ts.slider);
         ButtonGroup eroseMode = new ButtonGroup();
         JRadioButton blackEroseButton= new JRadioButton("black", false);
         JRadioButton whiteEroseButton= new JRadioButton("white", false);
@@ -112,7 +115,7 @@ public class OtsuDialog extends JPanel {
                 frame.dispose();
             }
         });
-        add(paramsPanel);
-        add(buttonPanel);
+        add(paramsPanel,BorderLayout.CENTER);
+        add(buttonPanel,BorderLayout.SOUTH);
     }
 }
