@@ -1,11 +1,10 @@
 package ru.nsu.cg;
 
-import FF_1234_Pupkin_Init.InitMainWindow;
-
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.nio.charset.Charset;
+import java.util.Objects;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -32,7 +31,7 @@ public class FileUtils {
 				dataDirectory = new File(".");
 			}
 			if(dataDirectory == null || !dataDirectory.exists()) dataDirectory = new File(".");
-			for(File f: dataDirectory.listFiles())
+			for(File f: Objects.requireNonNull(dataDirectory.listFiles()))
 			{
 				if(f.isDirectory() && f.getName().endsWith("_Data"))
 				{

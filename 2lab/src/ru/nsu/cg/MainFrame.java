@@ -76,15 +76,11 @@ public class MainFrame extends JFrame {
 		if (icon != null)
 			item.setIcon(new ImageIcon(getClass().getResource("resources/" + icon), title));
 		final Method method = getClass().getMethod(actionMethod);
-		item.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent evt) {
-				try {
-					method.invoke(MainFrame.this);
-				} catch (Exception e) {
-					throw new RuntimeException(e);
-				}
+		item.addActionListener(evt -> {
+			try {
+				method.invoke(MainFrame.this);
+			} catch (Exception e) {
+				throw new RuntimeException(e);
 			}
 		});
 		return item;
@@ -279,7 +275,7 @@ public class MainFrame extends JFrame {
 	public AbstractButton createToolBarButton(String menuPath, boolean isRadio)
 	{
 		JMenuItem item = (JMenuItem)getMenuElement(menuPath);
-		if(item == null) 
+		if(item == null)
 			throw new InvalidParameterException("Menu path not found: "+menuPath);
 		return createToolBarButton(item,isRadio);
 	}
