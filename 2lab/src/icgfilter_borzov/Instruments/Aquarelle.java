@@ -1,8 +1,8 @@
 package icgfilter_borzov.Instruments;
 
 import icgfilter_borzov.Dialogs.AquarelleDialog;
+import icgfilter_borzov.Dialogs.MyDialog;
 
-import javax.swing.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -50,7 +50,7 @@ public class Aquarelle implements Instrument {
     }
 
     @Override
-    public JPanel getParameterDialog() {
+    public MyDialog getParameterDialog() {
         return dialog;
     }
 

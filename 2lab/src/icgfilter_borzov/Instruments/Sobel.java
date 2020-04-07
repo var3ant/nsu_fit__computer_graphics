@@ -1,8 +1,8 @@
 package icgfilter_borzov.Instruments;
 
+import icgfilter_borzov.Dialogs.MyDialog;
 import icgfilter_borzov.Dialogs.SobelDialog;
 
-import javax.swing.*;
 import java.awt.image.BufferedImage;
 
 public class Sobel implements Instrument{
@@ -67,7 +67,7 @@ public class Sobel implements Instrument{
         return toReturn;
     }
     @Override
-    public JPanel getParameterDialog() {
+    public MyDialog getParameterDialog() {
         return dialog;
     }
     public int getBinParameter() {

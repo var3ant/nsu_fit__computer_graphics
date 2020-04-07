@@ -3,10 +3,10 @@ package icgfilter_borzov.Dialogs;
 import icgfilter_borzov.Instruments.Scaler;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Objects;
 
-public class ScalerDialog extends JPanel {
+public class ScalerDialog extends JPanel implements MyDialog {
     Scaler scaler;
     public ScalerDialog(Scaler scaler) {
         this.scaler = scaler;
@@ -21,7 +21,7 @@ public class ScalerDialog extends JPanel {
         ActionListener actionListener = e -> {
             JComboBox box = (JComboBox)e.getSource();
             String item = (String)box.getSelectedItem();
-            switch (item) {
+            switch (Objects.requireNonNull(item)) {
                 case "BICUBIC":
                     scaler.setTransformType(Scaler.TransformType.BICUBIC);
                     break;
@@ -35,5 +35,10 @@ public class ScalerDialog extends JPanel {
         };
         comboBox.addActionListener(actionListener);
         add(comboBox);
+    }
+
+    @Override
+    public boolean isDialogResult() {
+        return true;
     }
 }

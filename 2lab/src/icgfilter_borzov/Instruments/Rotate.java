@@ -1,8 +1,8 @@
 package icgfilter_borzov.Instruments;
 
+import icgfilter_borzov.Dialogs.MyDialog;
 import icgfilter_borzov.Dialogs.RotateDialog;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
@@ -37,7 +37,7 @@ public class Rotate implements Instrument {
     }
 
     @Override
-    public JPanel getParameterDialog() {
+    public MyDialog getParameterDialog() {
         return dialog;
     }
     public int getAngle() {

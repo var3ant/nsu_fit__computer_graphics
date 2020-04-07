@@ -1,8 +1,8 @@
 package icgfilter_borzov.Instruments;
 
 import icgfilter_borzov.Dialogs.FloydDitherDialog;
+import icgfilter_borzov.Dialogs.MyDialog;
 
-import javax.swing.*;
 import java.awt.image.BufferedImage;
 
 public class FloydDither implements Instrument {
@@ -94,7 +94,7 @@ public class FloydDither implements Instrument {
 
 
     @Override
-    public JPanel getParameterDialog() {
+    public MyDialog getParameterDialog() {
         return dialog;
     }
 

@@ -1,6 +1,7 @@
 package icgfilter_borzov.Instruments;
 
-import javax.swing.*;
+import icgfilter_borzov.Dialogs.MyDialog;
+
 import java.awt.image.BufferedImage;
 
 public class Sharp implements Instrument {
@@ -62,7 +63,7 @@ public class Sharp implements Instrument {
         return toReturn;
     }
     @Override
-    public JPanel getParameterDialog() {
+    public MyDialog getParameterDialog() {
         return null;
     }
 }

@@ -1,5 +1,6 @@
 package icgfilter_borzov;
 
+import icgfilter_borzov.Dialogs.MyDialog;
 import icgfilter_borzov.Instruments.*;
 
 import javax.imageio.ImageIO;
@@ -37,6 +38,7 @@ public class InitView extends JPanel {
     static private Rotate rotate = new Rotate();
     static private Otsu otsu = new Otsu();
     static private None none = new None();
+    static private EInstrument einstrument;
     private int width = 800;
     private int height = 600;
     private boolean isInEffect = false;
@@ -46,6 +48,7 @@ public class InitView extends JPanel {
      */
     public InitView() {
         instrument = null;
+        einstrument = EInstrument.NONE;
         imageWithEffect = null;
         addMouseListener(new MouseAdapter() {
             @Override
@@ -160,9 +163,13 @@ public class InitView extends JPanel {
     public void setInstrument(EInstrument einstrument) {
         isInEffect = false;
         imageWithEffect = null;
+        InitView.einstrument = einstrument;
         instrument = einstrument.getInstrument();
     }
-    public JPanel getParametersPanel() {
+    public EInstrument getInstrument() {
+        return einstrument;
+    }
+    public MyDialog getParametersPanel() {
         return instrument.getParameterDialog();
     }
     public void setImageSize() {
@@ -192,6 +199,7 @@ public class InitView extends JPanel {
     public void save(File image) throws IOException {
         ImageIO.write(imageWithEffect, "png" , image);
     }
+
     enum EInstrument{
         AQUARELLE(aquarelle),
         BLUR(blur),

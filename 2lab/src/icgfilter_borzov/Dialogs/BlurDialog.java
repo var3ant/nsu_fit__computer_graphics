@@ -7,13 +7,12 @@ import icgfilter_borzov.Instruments.Blur;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-public class BlurDialog extends JPanel {
+public class BlurDialog extends JPanel implements MyDialog {
     final int MIN_VALUE = 3;
     final int MAX_VALUE = 11;
     final int MAX_VALUE_LENGTH = 2;
+    private boolean isOk = false;
     Blur blur;
     JTextField valueText;
     public BlurDialog(Blur blur) {
@@ -40,14 +39,21 @@ public class BlurDialog extends JPanel {
         okButton.addActionListener(e -> {
             JDialog frame = (JDialog) p.getRootPane().getParent();
             blur.setMatrixSize(Integer.parseInt(valueText.getText()));
+            isOk = true;
             frame.dispose();
         });
         cancelButton.addActionListener(e -> {
             JDialog frame = (JDialog) p.getRootPane().getParent();
             valueText.setText(String.valueOf(blur.getMatrixSize()));
+            isOk = false;
             frame.dispose();
         });
         add(paramsPanel);
         add(buttonPanel);
+    }
+
+    @Override
+    public boolean isDialogResult() {
+        return isOk;
     }
 }

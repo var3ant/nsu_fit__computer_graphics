@@ -6,15 +6,15 @@ import icgfilter_borzov.Instruments.Sobel;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-public class SobelDialog extends JPanel {
+public class SobelDialog extends JPanel implements MyDialog {
     final int MIN_VALUE = 0;
     final int MAX_VALUE = 255;
     final int MAX_VALUE_LENGTH = 3;
     public JFormattedTextField valueText;
+    private boolean isOk = false;
     Sobel sobel;
+
     public SobelDialog(Sobel sobel) {
         super();
         setLayout(new GridLayout(2, 1));
@@ -34,14 +34,21 @@ public class SobelDialog extends JPanel {
         okButton.addActionListener(e -> {
             JDialog frame = (JDialog)p.getRootPane().getParent();
             sobel.setBinParameter(Integer.parseInt(valueText.getText()));
+            isOk = true;
             frame.dispose();
         });
         cancelButton.addActionListener(e -> {
             JDialog frame = (JDialog)p.getRootPane().getParent();
             valueText.setText(String.valueOf(sobel.getBinParameter()));
+            isOk = false;
             frame.dispose();
         });
         add(paramsPanel);
         add(buttonPanel);
+    }
+
+    @Override
+    public boolean isDialogResult() {
+        return isOk;
     }
 }

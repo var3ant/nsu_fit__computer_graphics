@@ -1,6 +1,7 @@
 package icgfilter_borzov.Instruments;
 
-import javax.swing.*;
+import icgfilter_borzov.Dialogs.MyDialog;
+
 import java.awt.image.BufferedImage;
 
 public class Dilate implements Instrument {
@@ -39,7 +40,7 @@ public class Dilate implements Instrument {
         return white;
     }
     @Override
-    public JPanel getParameterDialog() {
+    public MyDialog getParameterDialog() {
         return null;
     }
     public void setShift(int shift) {

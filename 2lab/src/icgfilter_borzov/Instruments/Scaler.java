@@ -1,8 +1,8 @@
 package icgfilter_borzov.Instruments;
 
+import icgfilter_borzov.Dialogs.MyDialog;
 import icgfilter_borzov.Dialogs.ScalerDialog;
 
-import javax.swing.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
@@ -18,7 +18,7 @@ import java.awt.image.BufferedImage;
 //     * Bicubic interpolation type.
 //     */
 //    @Native public static final int TYPE_BICUBIC = 3;
-public class Scaler implements Instrument {
+public class Scaler implements Instrument{
     boolean isFitToScreen = true;
     ScalerDialog dialog;
     private int transformType = AffineTransformOp.TYPE_BILINEAR;
@@ -77,7 +77,7 @@ public class Scaler implements Instrument {
     }
 
     @Override
-    public JPanel getParameterDialog() {
+    public MyDialog getParameterDialog() {
         return dialog;
     }
 

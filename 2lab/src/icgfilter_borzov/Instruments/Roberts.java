@@ -1,8 +1,8 @@
 package icgfilter_borzov.Instruments;
 
+import icgfilter_borzov.Dialogs.MyDialog;
 import icgfilter_borzov.Dialogs.RobertsDialog;
 
-import javax.swing.*;
 import java.awt.image.BufferedImage;
 
 public class Roberts implements Instrument{
@@ -70,7 +70,7 @@ public class Roberts implements Instrument{
         this.binParameter = binParameter;
     }
     @Override
-    public JPanel getParameterDialog() {
+    public MyDialog getParameterDialog() {
         return dialog;
     }
 }

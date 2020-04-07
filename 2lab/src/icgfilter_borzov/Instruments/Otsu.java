@@ -1,8 +1,8 @@
 package icgfilter_borzov.Instruments;
 
+import icgfilter_borzov.Dialogs.MyDialog;
 import icgfilter_borzov.Dialogs.OtsuDialog;
 
-import javax.swing.*;
 import java.awt.image.BufferedImage;
 
 public class Otsu implements Instrument {
@@ -72,7 +72,7 @@ public class Otsu implements Instrument {
     }
 
     @Override
-    public JPanel getParameterDialog() {
+    public MyDialog getParameterDialog() {
         return dialog;
     }
 

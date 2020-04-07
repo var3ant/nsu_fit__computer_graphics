@@ -1,6 +1,7 @@
 package icgfilter_borzov.Instruments;
 
-import javax.swing.*;
+import icgfilter_borzov.Dialogs.MyDialog;
+
 import java.awt.image.BufferedImage;
 
 public class None implements Instrument {
@@ -10,7 +11,7 @@ public class None implements Instrument {
     }
 
     @Override
-    public JPanel getParameterDialog() {
+    public MyDialog getParameterDialog() {
         return null;
     }
 }

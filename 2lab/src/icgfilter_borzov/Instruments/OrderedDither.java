@@ -1,8 +1,8 @@
 package icgfilter_borzov.Instruments;
 
+import icgfilter_borzov.Dialogs.MyDialog;
 import icgfilter_borzov.Dialogs.OrderedDitherDialog;
 
-import javax.swing.*;
 import java.awt.image.BufferedImage;
 
 public class OrderedDither implements Instrument {
@@ -105,7 +105,7 @@ public class OrderedDither implements Instrument {
     }
 
     @Override
-    public JPanel getParameterDialog() {
+    public MyDialog getParameterDialog() {
         return dialog;
     }
 

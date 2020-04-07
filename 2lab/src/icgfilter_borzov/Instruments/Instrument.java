@@ -1,10 +1,11 @@
 package icgfilter_borzov.Instruments;
 
-import javax.swing.*;
+import icgfilter_borzov.Dialogs.MyDialog;
+
 import java.awt.image.BufferedImage;
 
 public interface Instrument {
     BufferedImage doWork(BufferedImage image);
 
-    JPanel getParameterDialog();
+    MyDialog getParameterDialog();
 }

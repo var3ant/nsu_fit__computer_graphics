@@ -1,5 +1,6 @@
 package icgfilter_borzov;
 
+import icgfilter_borzov.Dialogs.MyDialog;
 import icgfilter_borzov.InitView.EInstrument;
 import ru.nsu.cg.FileUtils;
 import ru.nsu.cg.MainFrame;
@@ -203,6 +204,8 @@ public class InitMainWindow extends MainFrame {
     }
     public void onApply() {
         view.applyChanges();
+        view.setInstrument(EInstrument.NONE);
+        setButton(EInstrument.NONE);
     }
     public void onGamma() {
         selectInstrument(gamma,mgamma, EInstrument.GAMMA);
@@ -212,16 +215,86 @@ public class InitMainWindow extends MainFrame {
         selectInstrument(inversion,minversion, EInstrument.INVERSION);
     }
     private void selectInstrument(JToggleButton b, JRadioButtonMenuItem m, EInstrument instrument) {
-        effectButtons.clearSelection();
-        b.setSelected(true);
-        m.setSelected(true);
-        if(b.isSelected()) {
-            view.setInstrument(instrument);
-        } else {
+        if(instrument == view.getInstrument()) {
+            effectMenu.clearSelection();
+            effectButtons.clearSelection();
             view.setInstrument(EInstrument.NONE);
+            view.useInstrument();
+            return;
         }
-        onParameters();
-        view.useInstrument();
+        boolean isOk = onParameters(instrument);
+        if(isOk) {
+            effectButtons.clearSelection();
+            effectButtons.clearSelection();
+            b.setSelected(true);
+            m.setSelected(true);
+            view.setInstrument(instrument);
+            view.useInstrument();
+        } else {
+            setButton(view.getInstrument());
+        }
+    }
+    private void setButton(EInstrument instrument) {
+        effectButtons.clearSelection();
+        effectMenu.clearSelection();
+        switch (instrument) {
+            case AQUARELLE:
+                aqua.setSelected(true);
+                maqua.setSelected(true);
+                break;
+            case BLUR:
+                blur.setSelected(true);
+                mblur.setSelected(true);
+                break;
+            case EMBOSS:
+                emboss.setSelected(true);
+                memboss.setSelected(true);
+                break;
+            case FLOYD:
+                floyd.setSelected(true);
+                mfloyd.setSelected(true);
+                break;
+            case GAMMA:
+                gamma.setSelected(true);
+                mgamma.setSelected(true);
+                break;
+            case GREY:
+                grey.setSelected(true);
+                mgrey.setSelected(true);
+                break;
+            case INVERSION:
+                inversion.setSelected(true);
+                minversion.setSelected(true);
+                break;
+            case ORDERED:
+                ordered.setSelected(true);
+                mordered.setSelected(true);
+                break;
+            case OTSU:
+                otsu.setSelected(true);
+                motsu.setSelected(true);
+                break;
+            case ROBERTS:
+                roberts.setSelected(true);
+                mroberts.setSelected(true);
+                break;
+            case ROTATE:
+                rotate.setSelected(true);
+                mrotate.setSelected(true);
+                break;
+            case SHARP:
+                sharp.setSelected(true);
+                msharp.setSelected(true);
+                break;
+            case SOBEL:
+                sobel.setSelected(true);
+                msobel.setSelected(true);
+                break;
+            case NONE:
+                break;
+            default:
+                throw new IllegalArgumentException();
+        }
     }
     public void onOtsu() {
         selectInstrument(otsu,motsu, EInstrument.OTSU);
@@ -268,28 +341,39 @@ public class InitMainWindow extends MainFrame {
     public void onOpen() {
         File image = FileUtils.getOpenImageFileName(this);
         view.open(image);
+        view.setInstrument(EInstrument.NONE);
+        setButton(EInstrument.NONE);
         if (scrollPane != null) {
             scrollPane.revalidate();
         }
 
     }
 
-    public void onParameters() {
-        JPanel p = view.getParametersPanel();
+    public boolean onParameters(MyDialog p) {
         System.out.println(p);
         if(p != null) {
             JDialog dialog = new JDialog(this,"Set parameters",true);
             Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-            dialog.add(view.getParametersPanel());
+            dialog.add((Component) p);
             dialog.pack();
             dialog.setBounds((int)(screenSize.getWidth()/2 - dialog.getWidth()/2),(int)(screenSize.getHeight()/2 - dialog.getHeight()/2),dialog.getWidth(),dialog.getHeight());
             dialog.setVisible(true);
+            return p.isDialogResult();
         }
+        return true;
     }
+
+    public boolean onParameters() {
+        return onParameters(view.getParametersPanel());
+    }
+
+    public boolean onParameters(EInstrument eInstrument) {
+        return onParameters(eInstrument.getInstrument().getParameterDialog());
+    }
+
     public void onFitToScreen() {
         isFitToScreenMode = !isFitToScreenMode;
         setFitToScreen(isFitToScreenMode);
-
     }
     private void setFitToScreen(boolean isFitToScreenMode) {
         fitToScreenButton.setSelected(isFitToScreenMode);

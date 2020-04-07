@@ -3,17 +3,18 @@ package icgfilter_borzov.Dialogs;
 import icgfilter_borzov.Dialogs.TextAndSlider.TextAndSlider;
 import icgfilter_borzov.Dialogs.TextAndSlider.TextAndSliderCreator;
 import icgfilter_borzov.Instruments.Roberts;
+
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-public class RobertsDialog  extends JPanel {
+public class RobertsDialog extends JPanel implements MyDialog {
     final int MIN_VALUE = 10;
     final int MAX_VALUE = 255;
     final int MAX_VALUE_LENGTH = 3;
+    private boolean isOk = false;
     Roberts roberts;
     public JFormattedTextField valueText;
+
     public RobertsDialog(Roberts roberts) {
         super();
         setLayout(new GridLayout(2, 1));
@@ -33,14 +34,21 @@ public class RobertsDialog  extends JPanel {
         okButton.addActionListener(e -> {
             JDialog frame = (JDialog)p.getRootPane().getParent();
             roberts.setBinParameter(Integer.parseInt(valueText.getText()));
+            isOk = true;
             frame.dispose();
         });
         cancelButton.addActionListener(e -> {
             JDialog frame = (JDialog)p.getRootPane().getParent();
             valueText.setText(String.valueOf(roberts.getBinParameter()));
+            isOk = false;
             frame.dispose();
         });
         add(paramsPanel);
         add(buttonPanel);
+    }
+
+    @Override
+    public boolean isDialogResult() {
+        return isOk;
     }
 }

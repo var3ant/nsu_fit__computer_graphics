@@ -6,13 +6,12 @@ import icgfilter_borzov.Instruments.OrderedDither;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-public class OrderedDitherDialog extends JPanel {
+public class OrderedDitherDialog extends JPanel implements MyDialog {
     final int MIN_VALUE = 2;
     final int MAX_VALUE = 128;
     final int MAX_VALUE_LENGTH = 3;
+    private boolean isOk = false;
     OrderedDither orderedDither;
     JTextField blueText;
     JTextField greenText;
@@ -50,6 +49,7 @@ public class OrderedDitherDialog extends JPanel {
             orderedDither.setBlue(Integer.parseInt(blueText.getText()));
             orderedDither.setGreen(Integer.parseInt(greenText.getText()));
             orderedDither.setRed(Integer.parseInt(redText.getText()));
+            isOk = true;
             frame.dispose();
         });
         cancelButton.addActionListener(e -> {
@@ -57,9 +57,15 @@ public class OrderedDitherDialog extends JPanel {
             blueText.setText(String.valueOf(orderedDither.getBlue()));
             greenText.setText(String.valueOf(orderedDither.getGreen()));
             redText.setText(String.valueOf(orderedDither.getRed()));
+            isOk = false;
             frame.dispose();
         });
         add(paramsPanel);
         add(buttonPanel);
+    }
+
+    @Override
+    public boolean isDialogResult() {
+        return isOk;
     }
 }

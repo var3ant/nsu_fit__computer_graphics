@@ -1,8 +1,8 @@
 package icgfilter_borzov.Instruments;
 
 import icgfilter_borzov.Dialogs.BlurDialog;
+import icgfilter_borzov.Dialogs.MyDialog;
 
-import javax.swing.*;
 import java.awt.image.BufferedImage;
 
 public class Blur implements Instrument {
@@ -57,7 +57,7 @@ public class Blur implements Instrument {
     }
 
     @Override
-    public JPanel getParameterDialog() {
+    public MyDialog getParameterDialog() {
         return blurDialog;
     }
 

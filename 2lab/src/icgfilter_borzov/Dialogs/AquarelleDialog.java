@@ -6,14 +6,13 @@ import icgfilter_borzov.Instruments.Aquarelle;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-public class AquarelleDialog  extends JPanel {
+public class AquarelleDialog  extends JPanel implements MyDialog {
     final int MIN_VALUE = 1;
     final int MAX_VALUE = 100;
     final int MAX_VALUE_LENGTH = 3;
     public JFormattedTextField valueText;
+    private boolean isOk = false;
     Aquarelle aquarelle;
     public AquarelleDialog(Aquarelle aquarelle) {
         super();
@@ -34,14 +33,21 @@ public class AquarelleDialog  extends JPanel {
         okButton.addActionListener(e -> {
             JDialog frame = (JDialog)p.getRootPane().getParent();
             aquarelle.setValue(Integer.parseInt(valueText.getText()));
+            isOk = true;
             frame.dispose();
         });
         cancelButton.addActionListener(e -> {
             JDialog frame = (JDialog)p.getRootPane().getParent();
             valueText.setText(String.valueOf(aquarelle.getValue()));
+            isOk = false;
             frame.dispose();
         });
         add(paramsPanel);
         add(buttonPanel);
+    }
+
+    @Override
+    public boolean isDialogResult() {
+        return isOk;
     }
 }

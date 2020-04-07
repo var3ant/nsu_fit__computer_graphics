@@ -6,16 +6,16 @@ import icgfilter_borzov.Instruments.Otsu;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-public class OtsuDialog extends JPanel {
+public class OtsuDialog extends JPanel implements MyDialog {
     final int MIN_VALUE = 1;
     final int MAX_VALUE = 9;
     final int MAX_VALUE_LENGTH = 1;
+    private boolean isOk = false;
     Otsu otsu;
     JTextField erodeText;
     JTextField dilateText;
+
     /*JRadioButton blackEroseButton;
     JRadioButton whiteEroseButton;
     JRadioButton blackDilateButton;
@@ -91,6 +91,7 @@ public class OtsuDialog extends JPanel {
             } else {
                 otsu.erode.setMode(1);
             }
+            isOk = true;
             frame.dispose();
         });
         cancelButton.addActionListener(e -> {
@@ -107,9 +108,15 @@ public class OtsuDialog extends JPanel {
             } else {
                 whiteDilateButton.setSelected(true);
             }
+            isOk = false;
             frame.dispose();
         });
         add(paramsPanel,BorderLayout.CENTER);
         add(buttonPanel,BorderLayout.SOUTH);
+    }
+
+    @Override
+    public boolean isDialogResult() {
+        return isOk;
     }
 }

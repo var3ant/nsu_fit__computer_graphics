@@ -6,13 +6,12 @@ import icgfilter_borzov.Instruments.FloydDither;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-public class FloydDitherDialog extends JPanel {
+public class FloydDitherDialog extends JPanel implements MyDialog {
     final int MIN_VALUE = 2;
     final int MAX_VALUE = 128;
     final int MAX_VALUE_LENGTH = 3;
+    private boolean isOk = false;
     FloydDither floydDither;
     JTextField blueText;
     JTextField greenText;
@@ -50,6 +49,7 @@ public class FloydDitherDialog extends JPanel {
             floydDither.setBlue(Integer.parseInt(blueText.getText()));
             floydDither.setGreen(Integer.parseInt(greenText.getText()));
             floydDither.setRed(Integer.parseInt(redText.getText()));
+            isOk = true;
             frame.dispose();
         });
         cancelButton.addActionListener(e -> {
@@ -57,9 +57,15 @@ public class FloydDitherDialog extends JPanel {
             blueText.setText(String.valueOf(floydDither.getBlue()));
             greenText.setText(String.valueOf(floydDither.getGreen()));
             redText.setText(String.valueOf(floydDither.getRed()));
+            isOk = false;
             frame.dispose();
         });
         add(paramsPanel);
         add(buttonPanel);
+    }
+
+    @Override
+    public boolean isDialogResult() {
+        return isOk;
     }
 }

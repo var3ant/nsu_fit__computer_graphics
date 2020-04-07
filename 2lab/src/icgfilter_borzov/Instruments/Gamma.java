@@ -1,8 +1,8 @@
 package icgfilter_borzov.Instruments;
 
 import icgfilter_borzov.Dialogs.GammaDialog;
+import icgfilter_borzov.Dialogs.MyDialog;
 
-import javax.swing.*;
 import java.awt.image.BufferedImage;
 
 public class Gamma implements Instrument {
@@ -36,7 +36,7 @@ public class Gamma implements Instrument {
     }
 
     @Override
-    public JPanel getParameterDialog() {
+    public MyDialog getParameterDialog() {
         return dialog;
     }
 
