@@ -54,7 +54,7 @@ public class InitView extends JPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                useInstrument();
+                onMouseClick();
             }
         });
     }
@@ -149,26 +149,38 @@ public class InitView extends JPanel {
         }
         repaint();
     }
-    public void useInstrument() {
-        if(instrument != null && originalImage != null) {
-            if(!isInEffect) {
-                if(imageWithEffect == null) {
+
+    private void onMouseClick() {
+        if (!isInEffect) {
+            if (imageWithEffect == null) {
+                if (instrument != null && originalImage != null) {
                     imageWithEffect = instrument.doWork(originalImage);
                 }
             }
-            isInEffect = !isInEffect;
-            paintImage();
         }
+        isInEffect = !isInEffect;
+        paintImage();
     }
+
+    public void useInstrument() {
+        if (instrument != null && originalImage != null) {
+            imageWithEffect = instrument.doWork(originalImage);
+            isInEffect = true;
+        }
+        paintImage();
+    }
+
     public void setInstrument(EInstrument einstrument) {
         isInEffect = false;
         imageWithEffect = null;
         InitView.einstrument = einstrument;
         instrument = einstrument.getInstrument();
     }
+
     public EInstrument getInstrument() {
         return einstrument;
     }
+
     public MyDialog getParametersPanel() {
         return instrument.getParameterDialog();
     }
@@ -197,7 +209,15 @@ public class InitView extends JPanel {
     }
 
     public void save(File image) throws IOException {
-        ImageIO.write(imageWithEffect, "png" , image);
+        if(isInEffect) {
+            ImageIO.write(imageWithEffect, "png" , image);
+        } else if(originalImage != null) {
+            ImageIO.write(originalImage, "png" , image);
+        } else {
+            JOptionPane.showMessageDialog(this, "no image",
+                    "ERROR",
+                    JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     enum EInstrument{

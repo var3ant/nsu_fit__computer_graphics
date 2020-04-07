@@ -100,7 +100,7 @@ public class InitMainWindow extends MainFrame {
             msharp = (JRadioButtonMenuItem) addMenuItem("Filter/Sharp", "Sharp filter", KeyEvent.VK_X, "sharp.png", "onSharp", true);
             effectMenu.add(msharp);
             addSubMenu("Parameters", KeyEvent.VK_H);
-            addMenuItem("Parameters/Parameters", "open parameters dialog", KeyEvent.VK_X, "settings.png", "onParameters", false);
+            addMenuItem("Parameters/Parameters", "open parameters dialog", KeyEvent.VK_X, "settings.png", "onParametersButton", false);
             mrotate = (JRadioButtonMenuItem) addMenuItem("Parameters/Rotate", "Rotate image", KeyEvent.VK_X, "rotate.png", "onRotate", true);
             effectMenu.add(mrotate);
             fitToScreenMenuItem = (JRadioButtonMenuItem) addMenuItem("Parameters/FitToScreen", "change image display mode", KeyEvent.VK_X, "resize.png", "onFitToScreen", true);
@@ -365,6 +365,13 @@ public class InitMainWindow extends MainFrame {
 
     public boolean onParameters() {
         return onParameters(view.getParametersPanel());
+    }
+
+    public void onParametersButton() {
+        if(onParameters()) {
+            //view.setInstrument(view.getInstrument());
+            view.useInstrument();
+        }
     }
 
     public boolean onParameters(EInstrument eInstrument) {
