@@ -1,7 +1,6 @@
 package Borzov;
 
 import Borzov.view.ViewLegend;
-import javafx.geometry.Point2D;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -265,7 +264,7 @@ public class ContourLineCreator {
         }
     }
     */
-    void idkX(int y, int x1, int x2, double v1, double v2, double delta, double min, ArrayList<Stack<Point2D>> points) {
+    void idkX(int y, int x1, int x2, double v1, double v2, double delta, double min, ArrayList<Stack<Point>> points) {
         int xx;
         int z1 = getZnumber((v1 - min) / delta);
         //int z2=getZnumber((v2 - min) / delta);
@@ -278,12 +277,12 @@ public class ContourLineCreator {
             if (z1 != z) {
                 //int zToAdd = Math.min(z1, z);
                 z1 = z;
-                points.get(z).add(new Point2D(xx, y));
+                points.get(z).add(new Point(xx, y));
             }
         }
     }
 
-    void idkY(int x, int y1, int y2, double v1, double v2, double delta, double min, ArrayList<Stack<Point2D>> points) {
+    void idkY(int x, int y1, int y2, double v1, double v2, double delta, double min, ArrayList<Stack<Point>> points) {
         int yy;
         int z1 = getZnumber((v1 - min) / delta);
         //int z2=getZnumber((v1 - min) / delta);
@@ -296,7 +295,7 @@ public class ContourLineCreator {
             if (z1 != z) {
                 //int zToAdd = Math.min(z1, z);
                 z1 = z;
-                points.get(z).add(new Point2D(x, yy));
+                points.get(z).add(new Point(x, yy));
             }
         }
     }
