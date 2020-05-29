@@ -1,0 +1,15 @@
+
+>
+java:S1116"Remove this empty statement.( ôÀ¾üÿÿÿÿ8Û¡‰¤.
+f	java:S117h"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(±ïÕ¢
+_
+java:S1134"DTake the required action to fix the issue indicated by this comment.(æşÂ¦øÿÿÿÿ
+V	java:S125("<This block of commented-out lines of code should be removed.(¬»üÿÿÿÿ
+_
+java:S1134I"DTake the required action to fix the issue indicated by this comment.(©Ê¿ûÿÿÿÿ
+f	java:S117h"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(±ïÕ¢
+V	java:S125"<This block of commented-out lines of code should be removed.(æşÂ¦øÿÿÿÿ
+o	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ìøô
+]	java:S125"<This block of commented-out lines of code should be removed.(¬»üÿÿÿÿ8ôŠ…±£.
+0
+java:S1700"Rename field "matrix"(–Û©·úÿÿÿÿ

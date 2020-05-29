@@ -1,0 +1,27 @@
+
+s	java:S117”"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(…Û×Ûüÿÿÿÿ8ŸÁÜÞ¥.
+]	java:S125O"<This block of commented-out lines of code should be removed.(Ëåñøúÿÿÿÿ8žÒïÕ¥.
+ž
+java:S1186:"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(ãÆÐÂ8“Ä¢Ö¥.
+o	java:S116"NRename this field "Roy" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ò»¼þÿÿÿÿ8—»ÿ»£.
+œ
+java:S1186>"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(Ö„˜þúÿÿÿÿ
+ž
+java:S1186c"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(ç¨Î§8’ãúÕ¥.
+X	java:S125V"<This block of commented-out lines of code should be removed.(üå¦¡8žÒïÕ¥.
+n	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÁÚÑâ8ŸÁÜÞ¥.
+s	java:S117Æ"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(›’ïÑþÿÿÿÿ8ŸÁÜÞ¥.
+o	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(çƒ¥¹
+d	java:S116"ORename this field "Rsum" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¤§×ö
+Z	java:S106)"9Replace this use of System.out or System.err by a logger.(ÊëøÊýÿÿÿÿ8°ŠöÞ¥.
+s	java:S117•"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(éðÛÿÿÿÿÿ8žÒïÕ¥.
+s	java:S117­"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(…Û×Ûüÿÿÿÿ8ŸÁÜÞ¥.
+m	java:S116"SRename this field "RoxFirst" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(àÌÏÿÿÿÿÿ
+c	java:S116"NRename this field "Roz" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(®©¹Þ
+œ
+java:S1186C"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(•ßçùÿÿÿÿ
+c	java:S116"NRename this field "Rox" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(åŒ’
+l	java:S117®"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(éðÛÿÿÿÿÿ
+œ
+java:S1186/"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(Ä Ïúüÿÿÿÿ
+s	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¸¸Ï·ÿÿÿÿÿ8’ãúÕ¥.

@@ -1,0 +1,28 @@
+
+v	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(›ç½ï8ä¬Õà¥.
+F
+java:S1604…"(Make this anonymous inner class a lambda(öšÅÖ8ä¬Õà¥.
+J
+java:S16047"(Make this anonymous inner class a lambda(äÊëøÿÿÿÿ8ä¬Õà¥.
+F
+java:S1604”"(Make this anonymous inner class a lambda(öšÅÖ8ä¬Õà¥.
+^	java:S125¨"<This block of commented-out lines of code should be removed.(Ó¢ñÎûÿÿÿÿ8ä¬Õà¥.
+`
+java:S1155D">Use isEmpty() to check whether the collection is empty or not.(£¨­ßùÿÿÿÿ8¯°×à¥.
+E
+java:S1604g"(Make this anonymous inner class a lambda(ÿí€Ö8ä¬Õà¥.
+J
+java:S1604`"(Make this anonymous inner class a lambda(È¦ÿûøÿÿÿÿ8ä¬Õà¥.
+E
+java:S1604x"(Make this anonymous inner class a lambda(´ÿ•8ä¬Õà¥.
+J
+java:S1604A"(Make this anonymous inner class a lambda(ÇáÀ¹ûÿÿÿÿ8ä¬Õà¥.
+E
+java:S1604o"(Make this anonymous inner class a lambda(®”şî8ä¬Õà¥.
+J
+java:S1948"-Make "constructor" transient or serializable.(®·Üü8ä¬Õà¥.
+D
+java:S1604,"(Make this anonymous inner class a lambda(”åC8ä¬Õà¥.
+Y	java:S125º"<This block of commented-out lines of code should be removed.(õ‡ÙÉ8ä¬Õà¥.
+E
+java:S1604W"(Make this anonymous inner class a lambda(Ğşƒ±8ä¬Õà¥.

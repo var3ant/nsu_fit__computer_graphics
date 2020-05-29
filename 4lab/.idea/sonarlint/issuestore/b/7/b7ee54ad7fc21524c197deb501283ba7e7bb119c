@@ -1,0 +1,17 @@
+
+l
+java:S2095L"OUse try-with-resources or close this "ObjectInputStream" in a "finally" clause.(‡­†ä8›€³à¥.
+{	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(¦Çæêûÿÿÿÿ8›€³à¥.
+E
+java:S1148,"#Use a logger to log this exception.(€ÉÔ…ýÿÿÿÿ8›€³à¥.
+m
+java:S2095b"PUse try-with-resources or close this "ObjectOutputStream" in a "finally" clause.(¿Öå£8›€³à¥.
+L
+java:S2093J"*Change this "try" to a try-with-resources.(¡»¢üùÿÿÿÿ8›€³à¥.
+]	java:S110"<This class has 7 parents which is greater than 5 authorized.(‰¥»Žûÿÿÿÿ8›€³à¥.
+Z	java:S106X"9Replace this use of System.out or System.err by a logger.(Úê£ºúÿÿÿÿ8›€³à¥.
+[	java:S106"9Replace this use of System.out or System.err by a logger.(ŠÄ×çûÿÿÿÿ8›€³à¥.
+R
+java:S1128"0Remove this unused import 'java.nio.ByteBuffer'.(¿¢×±úÿÿÿÿ8›€³à¥.
+J	java:S108N")Either remove or fill this block of code.(ú×Þ³ùÿÿÿÿ8›€³à¥.
+]	java:S125u"<This block of commented-out lines of code should be removed.(‡ÐÜ¹øÿÿÿÿ8öŸßö¥.

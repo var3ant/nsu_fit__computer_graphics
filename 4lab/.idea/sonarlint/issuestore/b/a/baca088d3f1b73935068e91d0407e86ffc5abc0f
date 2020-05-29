@@ -1,0 +1,10 @@
+
+a
+java:S1134G"DTake the required action to fix the issue indicated by this comment.(ù™¸À8ù¨”é¢.
+n	java:S117ì"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(™Î‘Ô8Ñžú‡¤.
+o	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(›ç½ï
+E
+java:S1948"(Make "transf" transient or serializable.(Íð¥ã8ŸÜ´Ü¥.
+s	java:S117ý"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÏœêŠýÿÿÿÿ8Ñžú‡¤.
+g
+java:S3776"RRefactor this method to reduce its Cognitive Complexity from 28 to the 15 allowed.(ù°ýM
