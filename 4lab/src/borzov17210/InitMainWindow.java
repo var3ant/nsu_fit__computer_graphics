@@ -122,9 +122,9 @@ public class InitMainWindow extends MainFrame {
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		view = new InitView(this, view3d, view.getState());
 		dialog.add(view);//view.getParametersPanel());
+		dialog.setResizable(false);
 		dialog.pack();
 		dialog.setBounds((int) (screenSize.getWidth() / 2.0 - dialog.getWidth() / 2.0), (int) (screenSize.getHeight() / 2.0 - dialog.getHeight() / 2.0), dialog.getWidth(), dialog.getHeight());
-		dialog.setResizable(false);
 		dialog.setVisible(true);
 	}
 

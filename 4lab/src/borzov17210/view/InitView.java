@@ -16,6 +16,7 @@ public class InitView extends JPanel {
     View3d view3d;
 
     public InitView(InitMainWindow mw, View3d view3d, State state) {
+        //setPreferredSize(new Dimension(800,600));
         this.mw = mw;
         this.view3d = view3d;
         setLayout(new GridBagLayout());
@@ -24,8 +25,8 @@ public class InitView extends JPanel {
         constraints1.fill = GridBagConstraints.BOTH;
         constraints1.gridwidth =
                 GridBagConstraints.REMAINDER;
-        constraints1.weightx = 0.8f;
-        constraints1.weighty = 0.8f;
+        constraints1.weightx = 0.9f;
+        constraints1.weighty = 0.9f;
         constraints1.gridy = 0;
 
         GridBagConstraints constraints2 =

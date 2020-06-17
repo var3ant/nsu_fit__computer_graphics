@@ -33,12 +33,18 @@ public class View3d extends JPanel {
     public View3d(State state) {
         this.state = state;
         this.setPreferredSize(new Dimension(600, 600));
+        View3d t = this;
         addMouseWheelListener(e -> {
+            /*
             if (e.getUnitsToScroll() > 0) {
                 zoom = zoom * 1.5;
             } else if (e.getUnitsToScroll() < 0) {
                 zoom = zoom / (1.5);
             }
+            */
+            double coef = Math.pow(1.1, e.getWheelRotation());
+            t.state.setZf(t.state.getZf() * coef);
+            t.state.setZb(t.state.getZb() * coef);
             repaint();
         });
 
@@ -158,15 +164,26 @@ public class View3d extends JPanel {
                 int y1 = (int) result1.getMatrix()[1][0];
                 int x2 = (int) result2.getMatrix()[0][0];
                 int y2 = (int) result2.getMatrix()[1][0];
+                //gi.setColor(Color.black);
                 gi.drawLine(x1 + getWidth() / 2, y1 + getHeight() / 2, x2 + getWidth() / 2, y2 + getHeight() / 2);
+                //gi.setColor(Color.RED);
+                //gi.fillRect(x1 + getWidth() / 2 - 5,y1 + getHeight() / 2 - 5,10,10);
+                //gi.setColor(Color.black);
             }
         }
         degBetweenWires = 360.0 / (state.getCircleN() * state.getM());
         List<List<Vector4>> circles = new ArrayList<>();
-        for (int i = 0; i < state.getSplinePoints().size(); i += state.getCircleM()) {
+
+        for (int i = 0; i < state.getCircleM(); i++) {
             List<Vector4> circle = new ArrayList<>();
             circles.add(circle);
         }
+        /*
+        for (int i = 0; i * wiresBetweenCircles < state.getSplinePoints().size(); i += 1) {
+            List<Vector4> circle = new ArrayList<>();
+            circles.add(circle);
+        }
+        */
         addWirePointsToCircles(T, circles);
         for (int i = 1; i < state.getCircleN() * state.getM(); ++i) {
             double deg = i * degBetweenWires;
@@ -199,8 +216,10 @@ public class View3d extends JPanel {
         if (circles.isEmpty()) {
             return;
         }
+        double wiresBetweenCircles = (double) state.getSplinePoints().size() / state.getCircleM();
         for (int i = 0; i < circles.size() - 1; i += 1) {
-            Vector4 v = state.getSplinePoints().get(i * state.getCircleM());
+            int sn = (int) Math.round(i * wiresBetweenCircles);
+            Vector4 v = state.getSplinePoints().get(sn);
             v = R.mul(v);
             v.normolizeByLastPoint();
             circles.get(i).add(v);

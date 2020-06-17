@@ -32,8 +32,9 @@ public class SplineMenu extends JPanel {
     private JButton minusBtn;
     private State newState;
     private boolean defaultclose = false;
-
+    private ChangeListener circleMlistener;
     public SplineMenu(View3d view3d, SplineView splineView, State state) {
+        setPreferredSize(new Dimension(1200, 50));
         this.view3d = view3d;
         this.state = state;
         newState = new State(state);
@@ -68,8 +69,8 @@ public class SplineMenu extends JPanel {
         constructor.addOnRow(circleNText);
 
         constructor.addOnRow(new JLabel("circle m"));
-        circleMSpinner = createSpinner(state.getCircleM(), 1, Integer.MAX_VALUE);
-        constructor.addOnRow(circleMSpinner);
+        circleMSpinner = createMSpinner(state.getCircleM(), 2, state.getPoints().size());
+        constructor.addOnRow(circleMSpinner, 30);
         constructor.addOnRow(new JLabel("x"));
         xText = createDoubleSpinner(splineView.getSelectedX(), Integer.MIN_VALUE, Integer.MAX_VALUE, 1);
         xText.addChangeListener(new ChangeListener() {
@@ -138,12 +139,15 @@ public class SplineMenu extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 splineView.removeSelectedPoint();
+                int maxCount = newState.getPoints().size();
+                //changeSpinner(circleMSpinner,Math.min((int)circleMSpinner.getValue(),maxCount),2,maxCount);
             }
         });
         plusBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 splineView.addPointAfterSelected();
+                //changeSpinner(circleMSpinner,(int)circleMSpinner.getValue(),2,newState.getPoints().size());
             }
         });
         constructor.addOnRow(plusBtn);
@@ -184,6 +188,41 @@ public class SplineMenu extends JPanel {
         });
         spinner.setValue(defaultValue);
         return spinner;
+    }
+
+    private JSpinner createMSpinner(int defaultValue, int min, int max) {
+        if (defaultValue < min || defaultValue > max) {
+            defaultValue = 2;
+        }
+        JSpinner spinner = new JSpinner(new SpinnerNumberModel(defaultValue, min, max, 1));
+        circleMlistener = e -> {
+            if ((int) spinner.getValue() < min) {
+                spinner.setValue(min);
+            } else if ((int) spinner.getValue() > max) {
+                spinner.setValue(max);
+            }
+        };
+        spinner.addChangeListener(circleMlistener);
+        spinner.setValue(defaultValue);
+        return spinner;
+    }
+
+    private void changeSpinner(JSpinner spinner, int defaultValue, int min, int max) {
+        spinner.setModel(new SpinnerNumberModel(defaultValue, min, max, 1));
+
+        /*for (ChangeListener listener: spinner.getChangeListeners()) {
+            spinner.removeChangeListener(listener);
+        }*/
+        spinner.removeChangeListener(circleMlistener);
+        circleMlistener = e -> {
+            if ((int) spinner.getValue() < min) {
+                spinner.setValue(min);
+            } else if ((int) spinner.getValue() > max) {
+                spinner.setValue(max);
+            }
+        };
+        spinner.addChangeListener(circleMlistener);
+        spinner.setValue(defaultValue);
     }
 
     private void applyParams() {
@@ -227,5 +266,9 @@ public class SplineMenu extends JPanel {
         if (!defaultclose) {
             resetParams();
         }
+    }
+
+    public void setCountPoints(int maxCount) {
+        changeSpinner(circleMSpinner, Math.min((int) circleMSpinner.getValue(), maxCount), 2, maxCount);
     }
 }

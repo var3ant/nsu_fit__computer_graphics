@@ -27,7 +27,7 @@ public class SplineView extends JPanel {
 
     public SplineView(State state) {
         this.state = state;
-        setPreferredSize(new Dimension(800, 600));
+        setPreferredSize(new Dimension(1200, 600));
         transf = new Transformator(getWidth() / 2, getHeight() / 2, 16);
         generateSubpoint();
         addComponentListener(new ComponentAdapter() {
@@ -85,9 +85,10 @@ public class SplineView extends JPanel {
                             generateSubpoint();
                             sendSelectedPointInfo();
                             repaint();
-                            return;
+                            break;
                         }
                     }
+                    menu.setCountPoints(state.getPoints().size());
                 }
             }
 
@@ -121,6 +122,7 @@ public class SplineView extends JPanel {
     private void createPoint(int x, int y, int num) {
         state.getPoints().add(num, new Vector4(transf.xAToB(x), transf.yAToB(y), pointSize));
         generateSubpoint();
+        menu.setCountPoints(state.getPoints().size());
     }
 
     private void resetPoint() {
@@ -377,6 +379,7 @@ public class SplineView extends JPanel {
         generateSubpoint();
         sendSelectedPointInfo();
         repaint();
+        menu.setCountPoints(state.getPoints().size());
     }
 
     public void addPointAfterSelected() {
@@ -396,6 +399,7 @@ public class SplineView extends JPanel {
         resetPoint();
         generateSubpoint();
         repaint();
+        menu.setCountPoints(state.getPoints().size());
     }
 
     public int getSelectedNumber() {
