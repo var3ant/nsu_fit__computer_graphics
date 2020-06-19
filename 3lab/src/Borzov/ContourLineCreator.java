@@ -354,7 +354,7 @@ public class ContourLineCreator {
     public void setNM(int n, int m) {
         this.n = n;
         this.m = m;
-        grid = new double[n][m];
+        grid = new double[n + 1][m + 1];
     }
 
     public boolean toggleColorMap() {

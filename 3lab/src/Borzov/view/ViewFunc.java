@@ -99,8 +99,8 @@ public class ViewFunc extends JPanel {
     }
 
     int[] getGridPos(int x, int y) {
-        double xQuantum = (double) (getWidth() - 1) / (grid.length - 1);
-        double yQuantum = (double) (getHeight() - 1) / (grid[0].length - 1);
+        double xQuantum = (double) (getWidth() - 1) / (grid.length);
+        double yQuantum = (double) (getHeight() - 1) / (grid[0].length);
         int[] pos = new int[2];
         pos[0] = (int) (x / xQuantum);
         pos[1] = (int) (y / yQuantum);
@@ -139,8 +139,9 @@ public class ViewFunc extends JPanel {
         minmax[1] = Integer.MIN_VALUE;
         double xdelta = b - a;
         double ydelta = c - d;
-        double xstep = xdelta / grid.length;
-        double ystep = ydelta / grid[0].length;
+        double xstep = xdelta / (grid.length - 1);
+        double ystep = ydelta / (grid[0].length - 1);
+        System.out.println(a + (grid.length) * xdelta / (grid.length));
         for (int x = 0; x < grid.length; x++) {
             for (int y = 0; y < grid[0].length; y++) {
                 double realX = a + x * xstep;
@@ -187,7 +188,7 @@ public class ViewFunc extends JPanel {
     public void setNM(int n, int m) {
         this.n = n;
         this.m = m;
-        grid = new double[n][m];
+        grid = new double[n + 1][m + 1];
         contourLineCreator.setNM(n, m);
         resizeImage();
     }
