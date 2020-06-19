@@ -37,9 +37,16 @@ public class Parser {
             }
             lines.add(line);
         }
-        parsABCD(lines.get(0));
-        parsNM(lines.get(1));
-        parsK(lines.get(2));
+        if(lines.size() < 3) {
+            return new String[]{"invalid count of strings"};
+        }
+        boolean isNormal = true;
+        isNormal = isNormal && parsABCD(lines.get(0));
+        isNormal = isNormal && parsNM(lines.get(1));
+        isNormal = isNormal && parsK(lines.get(2));
+        if(!isNormal) {
+            return getErrors();
+        }
         StringBuilder builder = new StringBuilder();
         for(int i=3;i<lines.size();i++) {
             builder.append(lines.get(i));
@@ -131,6 +138,10 @@ public class Parser {
             try {
                 n = Integer.parseInt(nmTextArr[0]);
                 m = Integer.parseInt(nmTextArr[1]);
+                if(n<=1 || m <=1) {
+                    addError("invalid value of N or M");
+                    return false;
+                }
             } catch (Exception e1) {
                 addError("invalid type of N or M");
                 return false;

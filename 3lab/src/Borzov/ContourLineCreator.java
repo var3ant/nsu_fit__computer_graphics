@@ -70,6 +70,12 @@ public class ContourLineCreator {
     }
 
     int getZnumberFromPercent(double percent) {
+        if(percent < 0) {
+            throw new IllegalArgumentException("percent must be >=0 not " + percent);
+        }
+        if(percent == 1) {
+            return k;
+        }
         return (int) Math.floor(percent * (k + 1));
     }
 
@@ -264,7 +270,7 @@ public class ContourLineCreator {
         }
     }
     */
-    void idkX(int y, int x1, int x2, double v1, double v2, double delta, double min, ArrayList<Stack<Point>> points) {
+    /*void idkX(int y, int x1, int x2, double v1, double v2, double delta, double min, ArrayList<Stack<Point>> points) {
         int xx;
         int z1 = getZnumber((v1 - min) / delta);
         //int z2=getZnumber((v2 - min) / delta);
@@ -298,7 +304,7 @@ public class ContourLineCreator {
                 points.get(z).add(new Point(x, yy));
             }
         }
-    }
+    }*/
 
     /*private Color getColorFromRGB(int[] rgb) {
         if(rgb.length!=3) {
@@ -319,14 +325,15 @@ public class ContourLineCreator {
         }
         this.rgb = rgb;
         this.k = k;
+        ContourLineCreator t = this;
         colorFromValue = percent -> {
-            int number = (int) Math.floor(percent * k);
-            int[] mrgb0 = rgb[number];
-            int[] mrgb1 = rgb[number + 1];
+            int number = (int) Math.floor(percent * t.k);
+            int[] mrgb0 = t.rgb[number];
+            int[] mrgb1 = t.rgb[number + 1];
             double rStep = mrgb1[0] - mrgb0[0];
             double gStep = mrgb1[1] - mrgb0[1];
             double bStep = mrgb1[2] - mrgb0[2];
-            double partOfPart = percent * k - number;
+            double partOfPart = percent * t.k - number;
             int r = (int) (mrgb0[0] + rStep * partOfPart);
             int g = (int) (mrgb0[1] + gStep * partOfPart);
             int b = (int) (mrgb0[2] + bStep * partOfPart);
@@ -337,7 +344,7 @@ public class ContourLineCreator {
             if(number < 0) {
                 throw  new IllegalArgumentException("number: " + number + " must be >=0");
             }
-            int[] mrgb = rgb[number];
+            int[] mrgb = t.rgb[number];
             int color = mrgb[2] | (mrgb[1] << 8) | (mrgb[0] << 16) | (255 << 24);
             return color;
         };
@@ -399,7 +406,8 @@ public class ContourLineCreator {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     int getZByF(double f) {
-        return (int) (getProcentByF(f) * (quantumZCount));
+        //return (int) (getProcentByF(f) * (quantumZCount));
+        return (int) ((f - min) * (quantumZCount) / delta);
     }
 
     int getZ(int gx, int gy) {
@@ -407,7 +415,15 @@ public class ContourLineCreator {
     }
 
     double getProcentByF(double f) {
-        return (f - min) / delta;
+
+        double v = (f - min) / delta;
+        if(v>1) {
+            v = 1;
+        }
+        if(v<0) {
+            v=0;
+        }
+        return v;
     }
 
     boolean foo(int x1, int y1, int x2, int y2, int z) {
@@ -442,14 +458,15 @@ public class ContourLineCreator {
         return getIntFromRGB(rgb[k+1][0],rgb[k+1][1],rgb[k+1][2]);
     }
     void resampleSquares2(double[][] grid, BufferedImage image, double min, double delta, double a, double b, double c, double d, DoubleToInt getColor) {
-        double xQuantum = (double) (image.getWidth() - 1) / (grid.length - 1);
-        double yQuantum = (double) (image.getHeight() - 1) / (grid[0].length - 1);
+        double xQuantum = (double) (image.getWidth()) / (grid.length - 1);
+        double yQuantum = (double) (image.getHeight()) / (grid[0].length - 1);
         this.grid = grid;
         this.delta = delta;
         this.min = min;
+        quantumZCount = k + 1;
         List<IsoLine> isoLines = new ArrayList<>();
         for (int z = 0; z < quantumZCount; z += 1) {
-            //��������� ��� z
+            double isolineValue = z *  delta / quantumZCount + min;
             for (int gx1 = 0; gx1 < grid.length - 1; gx1 += 1) {
                 for (int gy1 = 0; gy1 < grid[0].length - 1; gy1 += 1) {
                     int gx2 = gx1 + 1;
@@ -461,8 +478,7 @@ public class ContourLineCreator {
                     int z11 = getZ(gx1, gy1);
                     int z12 = getZ(gx1, gy2);
                     int z21 = getZ(gx2, gy1);
-                    int z22 = getZ(gx2, gy2);
-                    int[][] points = new int[4][2];
+                    int[][] points = new int[4][3];
                     for (int[] point : points) {
                         point[0] = -1;
                         point[1] = -1;
@@ -542,21 +558,29 @@ public class ContourLineCreator {
                     Graphics g = image.getGraphics();
                     g.setColor(new Color(getIsolineColor()));
                     if (points[0][0] != -1 && points[1][0] != -1 && points[2][0] != -1 && points[3][0] != -1) {
-                        int xCenter = x1 + (x2 - x1) / 2;
-                        int yCenter = y1 + (y2 - y1) / 2;
-                        double fCenter = bilinear(xCenter, yCenter, x1, x2, y1, y2, grid[gx1][gy1], grid[gx2][gy1], grid[gx1][gy2], grid[gx2][gy2]);
-                        int zCenter = getZByF(fCenter);
-                        z11 = getZ(gx1, gy1);
-                        if (z11 == zCenter) {
-                            g.drawLine(points[0][0], points[0][1], points[1][0], points[1][1]);
-                            g.drawLine(points[2][0], points[2][1], points[3][0], points[3][1]);
-                            isoLines.add(new IsoLine(new Point(points[0][0], points[0][1]), new Point(points[1][0], points[1][1])));
-                            isoLines.add(new IsoLine(new Point(points[2][0], points[2][1]), new Point(points[3][0], points[3][1])));
+                        double fCenter =  (grid[gx1][gy1] + grid[gx1][gy1 + 1] + grid[gx1 + 1][gy1] + grid[gx1 + 1][gy1 + 1])/4;//bilinear(xCenter, yCenter, x1, x2, y1, y2, grid[gx1][gy1], grid[gx2][gy1], grid[gx1][gy2], grid[gx2][gy2]);
+                        double f11 = grid[gx1][gy1];
+                        double f22 = grid[gx1 + 1][gy1 + 1];
+                        if(f11 < isolineValue && fCenter  > isolineValue || f11 > isolineValue && fCenter  < isolineValue) {
+                            double dx = xQuantum/2;
+                            double dy = yQuantum/2;
+                            Point pd1 = findDiagonalPoint(isolineValue, x1,y1,f11, fCenter,dx,dy);
+                            Point pd2 = findDiagonalPoint(isolineValue, x2,y2,f22, fCenter,-dx,-dy);
+                            g.drawLine(points[0][0], points[0][1], pd1.getX(), pd1.getY());
+                            g.drawLine(points[3][0], points[3][1], pd1.getX(), pd1.getY());
+                            g.drawLine(points[1][0], points[1][1], pd2.getX(), pd2.getY());
+                            g.drawLine(points[2][0], points[2][1], pd2.getX(), pd2.getY());
                         } else {
-                            g.drawLine(points[0][0], points[0][1], points[3][0], points[3][1]);
-                            g.drawLine(points[1][0], points[1][1], points[2][0], points[2][1]);
-                            isoLines.add(new IsoLine(new Point(points[0][0], points[0][1]), new Point(points[3][0], points[3][1])));
-                            isoLines.add(new IsoLine(new Point(points[1][0], points[1][1]), new Point(points[2][0], points[2][1])));
+                            double f12 = grid[gx1][gy2];
+                            double f21 = grid[gx2][gy1];
+                            double dx = xQuantum/2;
+                            double dy = yQuantum/2;
+                            Point pd1 = findDiagonalPoint(isolineValue, x2,y1,f21, fCenter,-dx,dy);
+                            Point pd2 = findDiagonalPoint(isolineValue, x1,y2,f12, fCenter,dx,-dy);
+                            g.drawLine(points[0][0], points[0][1], pd1.getX(), pd1.getY());
+                            g.drawLine(points[1][0], points[1][1], pd1.getX(), pd1.getY());
+                            g.drawLine(points[2][0], points[2][1], pd2.getX(), pd2.getY());
+                            g.drawLine(points[3][0], points[3][1], pd2.getX(), pd2.getY());
                         }
                     } else {
                         List<Point> lissOfPoints = new LinkedList<>();
@@ -566,6 +590,7 @@ public class ContourLineCreator {
                             }
                         }
                         if (lissOfPoints.size() != 2 && lissOfPoints.size() != 0) {
+                            //continue;
                             throw new Error("gx: " + gx1 + " gy: " + gy1 + " z: " + z + " Must be 0, 2 or 4 points, not " + lissOfPoints.size());
                         }
                         if (lissOfPoints.size() == 2) {
@@ -578,47 +603,38 @@ public class ContourLineCreator {
                 }
             }
         }
-        for (IsoLine isoLine : isoLines) {
-            int x, y, x1, x2, y1, y2;
-            double f11, f12, f21, f22;
+        stupidFill(grid, image, min, delta,getColor);
+    }
 
-            x = isoLine.p1.x - 1;
-            y = isoLine.p1.y;
-            while(x>=0 && getIsolineColor() == image.getRGB(x,y)) {
-                x-=1;
-            }
-            if(x>=-1) {
-                fillBilinear(x, y, xQuantum, yQuantum, image, getColor);
-            }
-            x = isoLine.p1.x + 1;
-            y = isoLine.p1.y;
-            while(x<image.getWidth() && getIsolineColor() == image.getRGB(x,y)) {
-                x+=1;
-            }
-            if(x>=image.getWidth()) {
-                fillBilinear(x, y, xQuantum, yQuantum, image, getColor);
-            }
-
-            x = isoLine.p1.x;
-            y = isoLine.p1.y - 1;
-            while(y>=0 && getIsolineColor() == image.getRGB(x,y) ) {
-                y-=1;
-            }
-            if(y!=-1) {
-                fillBilinear(x, y, xQuantum, yQuantum, image, getColor);
-            }
-
-            x = isoLine.p1.x;
-            y = isoLine.p1.y + 1;
-            while(y<image.getHeight() && getIsolineColor() == image.getRGB(x,y)) {
-                y+=1;
-            }
-            if(y!=image.getHeight()) {
-                fillBilinear(x, y, xQuantum, yQuantum, image, getColor);
+    public void stupidFill(double[][] grid, BufferedImage image, double min, double delta, DoubleToInt getColor) {
+        double xQuantum = (double) (image.getWidth() - 1) / (grid.length - 1);
+        double yQuantum = (double) (image.getHeight() - 1) / (grid[0].length - 1);
+        for (int gx1 = 0; gx1 < grid.length - 1; gx1 += 1) {
+            for (int gy1 = 0; gy1 < grid[0].length - 1; gy1 += 1) {
+                int gx2 = gx1 + 1;
+                int gy2 = gy1 + 1;
+                int x1 = (int) (gx1 * xQuantum);
+                int x2 = (int) (gx2 * xQuantum);
+                int y1 = (int) (gy1 * yQuantum);
+                int y2 = (int) (gy2 * yQuantum);
+                double f11 = grid[gx1][gy1];
+                double f21 = grid[gx2][gy1];
+                double f12 = grid[gx1][gy2];
+                for (int x = x1; x <= x2; x += 1) {
+                    double fx = linear(x1, x2, x, f11, f21);
+                    if(image.getRGB(x,y1) != getIsolineColor() && image.getRGB(x,y1) == 0) {
+                        fill(image,x,y1,getColor.apply((double)getZByF(fx) / quantumZCount));
+                    }
+                }
+                for (int y = y1; y <= y2; y += 1) {
+                    double fy = linear(y1, y2, y, f11, f12);
+                    if(image.getRGB(x1,y) != getIsolineColor() && image.getRGB(x1,y) == 0) {
+                        fill(image,x1,y,getColor.apply((double)getZByF(fy) / quantumZCount));
+                    }
+                }
             }
         }
     }
-
     public BufferedImage createIsoline(double[][] grid, double min, double max, double delta, int width, int height, int isolineX, int isolineY) {
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         double xQuantum = (double) (image.getWidth() - 1) / (grid.length - 1);
@@ -628,6 +644,9 @@ public class ContourLineCreator {
         this.min = min;
         int isolineX1 = (int)((double)isolineX/(image.getWidth() - 1) * (grid.length - 1));
         int isolineY1 = (int)((double)isolineY/(image.getHeight() - 1) * (grid[0].length - 1));
+        if(isolineX >= image.getWidth() - 1 || isolineY >= image.getHeight() - 1 || isolineY < 0 || isolineX < 0) {
+            return image;
+        }
         double isolineValue = bilinear(isolineX,isolineY, (int) (isolineX1*xQuantum), (int) ((isolineX1 + 1)*xQuantum), (int) (isolineY1*yQuantum),(int) ((isolineY1+1)*yQuantum),grid[isolineX1][isolineY1],grid[isolineX1][isolineY1 + 1],grid[isolineX1 + 1][isolineY1],grid[isolineX1 + 1][isolineY1 + 1]);
         List<IsoLine> isoLines = new ArrayList<>();
         for (int gx1 = 0; gx1 < grid.length - 1; gx1 += 1) {
@@ -638,10 +657,6 @@ public class ContourLineCreator {
                     int x2 = (int) (gx2 * xQuantum);
                     int y1 = (int) (gy1 * yQuantum);
                     int y2 = (int) (gy2 * yQuantum);
-                    int z11 = getZ(gx1, gy1);
-                    int z12 = getZ(gx1, gy2);
-                    int z21 = getZ(gx2, gy1);
-                    int z22 = getZ(gx2, gy2);
                     int[][] points = new int[4][2];
                     for (int[] point : points) {
                         point[0] = -1;
@@ -722,21 +737,29 @@ public class ContourLineCreator {
                     Graphics g = image.getGraphics();
                     g.setColor(new Color(getIsolineColor()));
                     if (points[0][0] != -1 && points[1][0] != -1 && points[2][0] != -1 && points[3][0] != -1) {
-                        int xCenter = x1 + (x2 - x1) / 2;
-                        int yCenter = y1 + (y2 - y1) / 2;
-                        double fCenter = bilinear(xCenter, yCenter, x1, x2, y1, y2, grid[gx1][gy1], grid[gx2][gy1], grid[gx1][gy2], grid[gx2][gy2]);
-                        int zCenter = getZByF(fCenter);
-                        z11 = getZ(gx1, gy1);
-                        if (z11 == zCenter) {
-                            g.drawLine(points[0][0], points[0][1], points[1][0], points[1][1]);
-                            g.drawLine(points[2][0], points[2][1], points[3][0], points[3][1]);
-                            isoLines.add(new IsoLine(new Point(points[0][0], points[0][1]), new Point(points[1][0], points[1][1])));
-                            isoLines.add(new IsoLine(new Point(points[2][0], points[2][1]), new Point(points[3][0], points[3][1])));
+                        double fCenter =  (grid[gx1][gy1] + grid[gx1][gy1 + 1] + grid[gx1 + 1][gy1] + grid[gx1 + 1][gy1 + 1])/4;//bilinear(xCenter, yCenter, x1, x2, y1, y2, grid[gx1][gy1], grid[gx2][gy1], grid[gx1][gy2], grid[gx2][gy2]);
+                        double f11 = grid[gx1][gy1];
+                        double f22 = grid[gx1 + 1][gy1 + 1];
+                        if(f11 < isolineValue && fCenter  >= isolineValue || f11 >= isolineValue && fCenter  < isolineValue) {
+                            double dx = xQuantum/2;
+                            double dy = yQuantum/2;
+                            Point pd1 = findDiagonalPoint(isolineValue, x1,y1,f11, fCenter,dx,dy);
+                            Point pd2 = findDiagonalPoint(isolineValue, x2,y2,f22, fCenter,-dx,-dy);
+                            g.drawLine(points[0][0], points[0][1], pd1.getX(), pd1.getY());
+                            g.drawLine(points[3][0], points[3][1], pd1.getX(), pd1.getY());
+                            g.drawLine(points[1][0], points[1][1], pd2.getX(), pd2.getY());
+                            g.drawLine(points[2][0], points[2][1], pd2.getX(), pd2.getY());
                         } else {
-                            g.drawLine(points[0][0], points[0][1], points[3][0], points[3][1]);
-                            g.drawLine(points[1][0], points[1][1], points[2][0], points[2][1]);
-                            isoLines.add(new IsoLine(new Point(points[0][0], points[0][1]), new Point(points[3][0], points[3][1])));
-                            isoLines.add(new IsoLine(new Point(points[1][0], points[1][1]), new Point(points[2][0], points[2][1])));
+                            double f12 = grid[gx1][gy2];
+                            double f21 = grid[gx2][gy1];
+                            double dx = xQuantum/2;
+                            double dy = yQuantum/2;
+                            Point pd1 = findDiagonalPoint(isolineValue, x2,y1,f21, fCenter,-dx,dy);
+                            Point pd2 = findDiagonalPoint(isolineValue, x1,y2,f12, fCenter,dx,-dy);
+                            g.drawLine(points[0][0], points[0][1], pd1.getX(), pd1.getY());
+                            g.drawLine(points[1][0], points[1][1], pd1.getX(), pd1.getY());
+                            g.drawLine(points[2][0], points[2][1], pd2.getX(), pd2.getY());
+                            g.drawLine(points[3][0], points[3][1], pd2.getX(), pd2.getY());
                         }
                     } else {
                         List<Point> lissOfPoints = new LinkedList<>();
@@ -756,35 +779,17 @@ public class ContourLineCreator {
             }
         return image;
     }
-
-    private void fillBilinear(int x, int y, double xQuantum, double yQuantum, BufferedImage image, DoubleToInt getColor) {
-        if(x>=image.getWidth() || y>=image.getHeight() || y<0 || x<0) {
-            return;
-        }
-        if(image.getRGB(x,y) == getIsolineColor()) {
-            return;
-        }
-        int x1 = (int) ((int) (x / xQuantum) * xQuantum);
-        int x2 = (int) ((int) (x / xQuantum + 1) * xQuantum);
-        int y1 = (int) ((int) (y / yQuantum) * yQuantum);
-        int y2 = (int) ((int) (y / yQuantum + 1) * yQuantum);
-        double f11 = grid[(int) (x1 / xQuantum)][(int) (y1 / yQuantum)];
-        double f12 = grid[(int) (x1 / xQuantum)][(int) (y2 / yQuantum)];
-        double f21 = grid[(int) (x2 / xQuantum)][(int) (y1 / yQuantum)];
-        double f22 = grid[(int) (x2 / xQuantum)][(int) (y2 / yQuantum)];
-        double bilinearTMP = bilinear(x, y, x1, x2, y1, y2, f11, f12, f21, f22);
-        int color = getColor.apply(getProcentByF(bilinearTMP));
-        /*if(color != -8323328) {
-            System.out.println(color);
-        }*/
-        fill(image, x, y, color);
+    private Point findDiagonalPoint(double isolineValue, double xbegin, double ybegin,
+                                    double fbegin, double fend, double dx, double dy) {
+        double coef = (isolineValue - fbegin)/(fend - fbegin);
+        return new Point((int)(xbegin + dx*coef), (int)(ybegin + dy*coef));
     }
 
     private void fill(BufferedImage image, int x, int y, int color) {
         Stack<Span> stack = new Stack<>();
         Graphics g = image.getGraphics();
         g.setColor(new Color(color));
-        if (x >= image.getWidth() || y >= image.getHeight() || x < 0 || y < 0) {
+        if (x >= image.getWidth() - 1 || y >= image.getHeight() - 1 || x < 0 || y < 0) {
             return;
         }
         int seedColor = image.getRGB(x, y);
@@ -869,12 +874,12 @@ public class ContourLineCreator {
     }
 
     private class IsoLine {
-        public Point p1;
-        public Point p2;
-
+        Point p1;
+        Point p2;
         private IsoLine(Point p1, Point p2) {
             this.p1 = p1;
             this.p2 = p2;
         }
     }
+
 }

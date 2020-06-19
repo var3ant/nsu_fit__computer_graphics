@@ -48,14 +48,14 @@ public class InitMainWindow extends MainFrame {
             addMenuItem("Help/About...", "Shows program version and copyright information", KeyEvent.VK_A, "Info.png", "onAbout", false);
 
             addSubMenu("Settings", KeyEvent.VK_F);
-            mFile = (JMenuItem) addMenuItem("Settings/File", "open file settings", KeyEvent.VK_X, "File.png", "onFile", false);
+            mFile = (JMenuItem) addMenuItem("File/Open", "open file settings", KeyEvent.VK_X, "File.png", "onLoad", false);
             mGradient = (JRadioButtonMenuItem) addMenuItem("Settings/Gradient", "set gradient mode", KeyEvent.VK_X, "Gradient.png", "onGradient", true);
             //mIsoline = (JRadioButtonMenuItem) addMenuItem("Settings/Isoline", "show grid", KeyEvent.VK_X, "Info.png", "onIsoline", true);
             mColorMap = (JRadioButtonMenuItem) addMenuItem("Settings/Color map", "set color map mode", KeyEvent.VK_X, "ColorMap.png", "onColorMap", true);
             mGrid = (JRadioButtonMenuItem) addMenuItem("Settings/Grid", "show grid", KeyEvent.VK_X, "Grid.png", "onGrid", true);
             mSettings = (JMenuItem) addMenuItem("Settings/Settings", "open settings", KeyEvent.VK_X, "Settings.png", "onSettings", true);
             //addToolBarButton("File/Exit", false);
-            file = addToolBarButton("Settings/File", false);
+            file = addToolBarButton("File/Open", false);
             settings = addToolBarButton("Settings/Settings", false);
             addToolBarSeparator();
             //isoline = (JToggleButton) addToolBarButton("Settings/Isoline", true);
@@ -69,12 +69,8 @@ public class InitMainWindow extends MainFrame {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        try {
-            if (!readSettings(FILE_PATH)) {
-                System.exit(0);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (!readSettings(FILE_PATH)) {
+            System.exit(0);
         }
         onGradient();
     }
@@ -111,6 +107,14 @@ public class InitMainWindow extends MainFrame {
         dialog.setVisible(true);
     }
 
+    public void onLoad() {
+        File file = getOpenFileName("3lab", "state");
+        if (file == null) {
+            return;
+        }
+        readSettings(file.getPath());
+    }
+    /*
     public void onFile() {
         Desktop desktop = null;
         if (Desktop.isDesktopSupported()) {
@@ -122,7 +126,7 @@ public class InitMainWindow extends MainFrame {
             ioe.printStackTrace();
         }
     }
-
+    */
     /*public void onIsoline() {
         boolean state = view.toggleIsolineMode();
         //mIsoline.setSelected(state);
@@ -151,7 +155,7 @@ public class InitMainWindow extends MainFrame {
         System.exit(0);
     }
 
-    boolean readSettings(String filePath) throws IOException {
+    boolean readSettings(String filePath){
         String[] errors = new Parser(view).pars(filePath);
         StringBuilder errorToPrint = new StringBuilder();
         if (errors.length != 0) {

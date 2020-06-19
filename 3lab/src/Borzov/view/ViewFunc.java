@@ -1,6 +1,7 @@
 package Borzov.view;
 
 import Borzov.ContourLineCreator;
+import Borzov.Function;
 
 import javax.swing.*;
 import java.awt.*;
@@ -32,7 +33,7 @@ public class ViewFunc extends JPanel {
     ContourLineCreator contourLineCreator;
     ViewLegend legend;
 
-    public ViewFunc(int n, int m, ViewLegend legend/*, double a, double b, double c, double d, int k, int[][] rgb*/) {
+    public ViewFunc(int n, int m, ViewLegend legend) {
         contourLineCreator = new ContourLineCreator(n, m);
         addLegend(legend);
         setNM(n, m);
@@ -43,10 +44,11 @@ public class ViewFunc extends JPanel {
                 repaint();
             }
         });
+        ViewFunc t = this;
         addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-
+                //JOptionPane.showMessageDialog(t, "x: " + e.getX() + " y: " + e.getY(), "About Init", JOptionPane.INFORMATION_MESSAGE);
             }
 
             @Override
@@ -93,7 +95,7 @@ public class ViewFunc extends JPanel {
         double ydelta = c - d;
         double xstep = xdelta / getWidth();
         double ystep = ydelta / getHeight();
-        return func(a + x * xstep, d + y * ystep);
+        return Function.f(a + x * xstep, d + y * ystep);
     }
 
     int[] getGridPos(int x, int y) {
@@ -143,7 +145,7 @@ public class ViewFunc extends JPanel {
             for (int y = 0; y < grid[0].length; y++) {
                 double realX = a + x * xstep;
                 double realY = d + y * ystep;
-                double f = func(realX, realY);
+                double f = Function.f(realX, realY);
                 grid[x][y] = f;
                 if (minmax[0] > f) {
                     minmax[0] = f;
@@ -155,10 +157,6 @@ public class ViewFunc extends JPanel {
         }
         min = minmax[0];
         max = minmax[1];
-    }
-
-    double func(double x, double y) {
-        return Math.sin(y) * Math.cos(x);
     }
 
     public boolean toggleGridMode() {
