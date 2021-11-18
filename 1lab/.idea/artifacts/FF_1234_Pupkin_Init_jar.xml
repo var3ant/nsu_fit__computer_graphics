@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" name="FF_1234_Pupkin_Init:jar">
-    <output-path>$PROJECT_DIR$/classes/artifacts/FF_1234_Pupkin_Init_jar</output-path>
-    <root id="archive" name="FF_1234_Pupkin_Init.jar">
-      <element id="module-output" name="FF_1234_Pupkin_Init" />
-    </root>
-  </artifact>
-</component>

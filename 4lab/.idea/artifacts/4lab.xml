@@ -1,6 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" name="4lab">
-    <output-path>$PROJECT_DIR$/classes/artifacts/4lab</output-path>
-    <root id="archive" name="4lab.jar" />
-  </artifact>
-</component>
